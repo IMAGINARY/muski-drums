@@ -1,0 +1,29 @@
+.muski-sequencer-matrix th {
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+.muski-sequencer-matrix td {
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  background-color: transparent;
+}
+.muski-sequencer-matrix .muski-sequencer-cell {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: #dcdcdc;
+  border: none;
+}
+.muski-sequencer-matrix .muski-sequencer-cell.active {
+  background-color: #61dcbd;
+}
+.muski-sequencer-matrix .muski-sequencer-row-label {
+  padding-right: 1em;
+  text-align: right;
+}
+.muski-sequencer-matrix .muski-sequencer-col-label {
+  text-align: center;
+}
+
+/*# sourceMappingURL=default.3b215506417deddcb0a5.css.map*/

@@ -1,0 +1,37 @@
+$cell-width: 40px;
+$cell-height: 40px;
+
+.muski-sequencer-matrix {
+  th {
+    font-size: 0.85rem;
+    font-weight: normal;
+  }
+
+  td {
+    width: $cell-width;
+    height: $cell-height;
+    border: 2px solid white;
+    background-color: transparent;
+  }
+
+  .muski-sequencer-cell {
+    display: block;
+    width: $cell-width;
+    height: $cell-height;
+    background-color: #dcdcdc;
+    border: none;
+
+    &.active {
+      background-color: #61dcbd;
+    }
+  }
+
+  .muski-sequencer-row-label {
+    padding-right: 1em;
+    text-align: right;
+  }
+
+  .muski-sequencer-col-label {
+    text-align: center;
+  }
+}
