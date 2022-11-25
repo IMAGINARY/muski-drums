@@ -22,7 +22,17 @@ $cell-height: 40px;
     border: none;
 
     &.active {
+      outline: 3px solid #ffff4b;
+      background-color: #efef9c;
+    }
+
+    &.on {
       background-color: #61dcbd;
+    }
+
+    &.active.on {
+      outline: 3px solid #ffff4b;
+      background-color: #61dc7e;
     }
   }
 

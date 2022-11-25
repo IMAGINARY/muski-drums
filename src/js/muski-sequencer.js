@@ -1,3 +1,5 @@
+import EventEmitter from 'events';
+
 export default class MuskiSequencer {
   /**
    * Construct a sequencer.
@@ -25,6 +27,10 @@ export default class MuskiSequencer {
 
     this.options = Object.assign({}, defaultOptions, options);
 
+    this.events = new EventEmitter();
+
+    this.activeColumn = null;
+
     this.$element = $('<div></div>')
       .addClass('muski-sequencer');
 
@@ -38,7 +44,7 @@ export default class MuskiSequencer {
           .attr('data-row', options.rows[row])
           .attr('data-col', col)
           .on('click', () => {
-            this.toggleCell(options.rows[row], col);
+            this.handleCellClick(options.rows[row], col);
           });
         rowButtons.push($cellButton);
       }
@@ -93,7 +99,7 @@ export default class MuskiSequencer {
     const colToActual = colTo === null ? this.options.cols :
       Math.max(0, Math.min(colTo, this.options.cols));
 
-    // Set all cells in the range to inactive.
+    // Turn all cells in the range off.
     for (let row = 0; row < this.options.rows.length; row += 1) {
       for (let col = colFromActual; col < colToActual; col += 1) {
         this.setCell(this.options.rows[row], col, false);
@@ -129,7 +135,7 @@ export default class MuskiSequencer {
    */
   toggleCell(row, col) {
     this.validateRowCol(row, col);
-    this.$cellButtons[String(row)][col].toggleClass('active');
+    this.$cellButtons[String(row)][col].toggleClass('on');
   }
 
   /**
@@ -138,16 +144,16 @@ export default class MuskiSequencer {
    *  Row ID.
    * @param {number }col
    *  Column number.
-   * @param active
-   *  Whether the cell should be active.
+   * @param state
+   *  Whether the cell should be on.
    */
-  setCell(row, col, active) {
+  setCell(row, col, state) {
     this.validateRowCol(row, col);
-    this.$cellButtons[String(row)][col].toggleClass('active', active);
+    this.$cellButtons[String(row)][col].toggleClass('on', state);
   }
 
   /**
-   * Get the active status of a cell
+   * Get the state of a cell
    *
    * @param {string} row
    *  Row ID.
@@ -157,26 +163,62 @@ export default class MuskiSequencer {
    */
   getCell(row, col) {
     this.validateRowCol(row, col);
-    return this.$cellButtons[String(row)][col].hasClass('active');
+    return this.$cellButtons[String(row)][col].hasClass('on');
   }
 
   /**
    * Get the sequence.
    *
    * The sequence is returned as an array of arrays, where each sub-array
-   * contains the row IDs of the active cells in each column.
+   * contains the row IDs of the cells that are 'on' in each column.
    */
   getSequence() {
     const sequence = [];
     for (let col = 0; col < this.options.cols; col += 1) {
-      const activeCells = [];
+      const onCells = [];
       for (let row = 0; row < this.options.rows.length; row += 1) {
         if (this.getCell(this.options.rows[row], col)) {
-          activeCells.push(this.options.rows[row]);
+          onCells.push(this.options.rows[row]);
         }
       }
-      sequence.push(activeCells);
+      sequence.push(onCells);
     }
     return sequence;
+  }
+
+  /**
+   * Set the active column
+   *
+   * The previously active column is deactivated.
+   *
+   * @param {number|null} col
+   *   The column number, or null to clear the active column.
+   */
+  setActiveColumn(col) {
+    // If there's a previously active column, remove the active class from every cell.
+    if (this.activeColumn !== null) {
+      for (let row = 0; row < this.options.rows.length; row += 1) {
+        this.$cellButtons[String(this.options.rows[row])][this.activeColumn].removeClass('active');
+      }
+    }
+
+    // Set every cell in the new column to active.
+    if (col !== null) {
+      for (let row = 0; row < this.options.rows.length; row += 1) {
+        this.$cellButtons[String(this.options.rows[row])][col].addClass('active');
+      }
+    }
+    this.activeColumn = col;
+  }
+
+  handleCellClick(row, col) {
+    if (this.getCell(row, col)) {
+      this.setCell(row, col, false);
+      this.events.emit('cell-off', row, col);
+    } else {
+      this.setCell(row, col, true);
+      this.events.emit('cell-on', row, col);
+    }
+    this.events.emit('update');
   }
 }
