@@ -1,0 +1,33 @@
+$btn-control-round-diameter: 50px;
+$btn-control-margin: 5px;
+
+.btn-control-round {
+  width: $btn-control-round-diameter;
+  height: $btn-control-round-diameter;
+  border: none;
+  padding: 0;
+  margin: $btn-control-margin;
+  background-color: #a8ff66;
+  background-size: $btn-control-round-diameter * 0.5;
+  background-repeat: no-repeat;
+  background-position:
+    $btn-control-round-diameter * 0.5 * 0.5
+    $btn-control-round-diameter * 0.5 * 0.5 - 7px;
+  font-size: 0;
+
+  &:hover {
+    background-color: #a8ff66 !important;
+  }
+}
+
+.btn-play {
+  background-image: url('../../vendor/font-awesome/play-solid.svg');
+  background-position:
+    $btn-control-round-diameter * 0.5 * 0.5 + 2px
+    $btn-control-round-diameter * 0.5 * 0.5 - 3px;
+}
+
+.btn-pause {
+  background-image: url('../../vendor/font-awesome/pause-solid.svg');
+
+}
