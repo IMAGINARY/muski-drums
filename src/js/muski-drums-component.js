@@ -4,12 +4,15 @@ import { drumMap, reverseDrumMap } from './lib/midi-drums';
 
 const sequenceLen = 16;
 const inputLen = 4;
+const BPM_DEFAULT = 100;
+const BPM_MIN = 80;
+const BPM_MAX = 200;
 
 export default class MuskiDrumsComponent {
   constructor(drums = null) {
     this.drums = drums;
     this.playing = false;
-    this.bpm = 100;
+    this.bpm = BPM_DEFAULT;
 
     if (!this.drums.initialized) {
       throw new Error('MuskiDrumsComponent is not initialized.');
@@ -27,7 +30,8 @@ export default class MuskiDrumsComponent {
     for (let step = 0; step < sequenceLen; step += 1) {
       steps.push(step);
     }
-    const stepper = new Tone.Sequence((time, step) => {
+
+    this.toneSequece = new Tone.Sequence((time, step) => {
       if (this.playing) {
         const sequence = this.sequencer.getSequence();
         const notes = sequence[step];
@@ -44,7 +48,7 @@ export default class MuskiDrumsComponent {
 
     this.$playButton = $('<button></button>')
       .attr('type', 'button')
-      .addClass(['btn', 'btn-control-round', 'btn-play'])
+      .addClass(['btn', 'btn-control-round', 'btn-control-round-lg', 'btn-play'])
       .text('Play')
       .on('click', () => { this.handlePlayButton(); })
       .appendTo(this.$element);
@@ -61,8 +65,8 @@ export default class MuskiDrumsComponent {
       .append(
         $('<input>')
           .attr('type', 'range')
-          .attr('min', 80)
-          .attr('max', 200)
+          .attr('min', BPM_MIN)
+          .attr('max', BPM_MAX)
           .attr('step', 1)
           .val(this.bpm)
           .on('input', (e) => { this.handleTempoChange(e.target.value); })
@@ -79,7 +83,7 @@ export default class MuskiDrumsComponent {
 
     this.$clearButton = $('<button></button>')
       .attr('type', 'button')
-      .addClass(['btn', 'btn-primary'])
+      .addClass(['btn', 'btn-control-round', 'btn-control-round-clear'])
       .text('Clear')
       .on('click', () => { this.handleClearButton(); })
       .appendTo(this.$element);

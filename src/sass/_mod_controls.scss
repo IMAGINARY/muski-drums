@@ -1,18 +1,18 @@
-$btn-control-round-diameter: 50px;
+$btn-control-round-diameter-lg: 60px;
+$btn-control-round-diameter-sm: 40px;
 $btn-control-margin: 5px;
 
 .btn-control-round {
-  width: $btn-control-round-diameter;
-  height: $btn-control-round-diameter;
+  width: $btn-control-round-diameter-sm;
+  height: $btn-control-round-diameter-sm;
   border: none;
   padding: 0;
+  border-radius: 50%;
   margin: $btn-control-margin;
   background-color: #a8ff66;
-  background-size: $btn-control-round-diameter * 0.5;
+  background-size: 50%;
   background-repeat: no-repeat;
-  background-position:
-    $btn-control-round-diameter * 0.5 * 0.5
-    $btn-control-round-diameter * 0.5 * 0.5 - 7px;
+  background-position: center;
   font-size: 0;
 
   &:hover {
@@ -20,14 +20,22 @@ $btn-control-margin: 5px;
   }
 }
 
-.btn-play {
-  background-image: url('../../vendor/font-awesome/play-solid.svg');
-  background-position:
-    $btn-control-round-diameter * 0.5 * 0.5 + 2px
-    $btn-control-round-diameter * 0.5 * 0.5 - 3px;
+.btn-control-round-lg {
+  width: $btn-control-round-diameter-lg;
+  height: $btn-control-round-diameter-lg;
 }
 
-.btn-pause {
-  background-image: url('../../vendor/font-awesome/pause-solid.svg');
+.btn-control-round-lg.btn-play {
+  background-image: url('../../vendor/font-awesome/play-solid.svg');
+  background-position:
+    $btn-control-round-diameter-lg * 0.5 * 0.5 + 2px
+    $btn-control-round-diameter-lg * 0.5 * 0.5 - 5px;
+}
 
+.btn-control-round.btn-pause {
+  background-image: url('../../vendor/font-awesome/pause-solid.svg');
+}
+
+.btn-control-round-clear {
+  background-image: url('../../vendor/font-awesome/trash-can-solid.svg');
 }
