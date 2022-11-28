@@ -1,18 +1,18 @@
 import '../sass/default.scss';
+import MuskiDrumsManager from './muski-drums-manager';
 import MuskiDrums from './muski-drums';
-import MuskiDrumsComponent from './muski-drums-component';
 
 (async () => {
   if ($('[data-component=muski-drums]').length > 0) {
-    const drums = new MuskiDrums({
+    const drumsManager = new MuskiDrumsManager({
       aiCheckpointUrl: 'checkpoints/drums_rnn',
       soundFontUrl: 'sounds/drums/',
     });
-    await drums.init();
+    await drumsManager.init();
 
     $('[data-component=muski-drums]').each(async (i, element) => {
-      const drumMachine = new MuskiDrumsComponent(drums);
-      $(element).replaceWith(drumMachine.$element);
+      const drums = new MuskiDrums(drumsManager);
+      $(element).replaceWith(drums.$element);
     });
   }
 })();
