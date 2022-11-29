@@ -10,7 +10,12 @@ const BPM_MIN = 80;
 const BPM_MAX = 200;
 
 export default class MuskiDrums {
-  constructor(ai, sampler, toneTransport) {
+  constructor(ai = null, sampler, toneTransport, userOptions = {}) {
+    const defaultOptions = {
+      drums: ['kick', 'snare', 'hihatClosed', 'hihatOpen', 'tomLow', 'tomMid', 'tomHigh', 'crash', 'ride'],
+    };
+    this.options = Object.assign({}, defaultOptions, userOptions);
+
     this.ai = ai;
     this.sampler = sampler;
     this.toneTransport = toneTransport;
@@ -24,12 +29,13 @@ export default class MuskiDrums {
 
     this.events = new EventEmitter();
 
-    this.$element = $('<div></div>');
+    this.$element = $('<div></div>')
+      .addClass('muski-drums')
+      .toggleClass('with-ai', ai !== null);
     this.sequencer = new MuskiSequencer({
-      rows: [drumMap.kick, drumMap.snare, drumMap.hihatClosed, drumMap.hihatOpen,
-        drumMap.tomLow, drumMap.tomMid, drumMap.tomHigh, drumMap.crash, drumMap.ride],
+      rows: this.options.drums.map(drum => drumMap[drum]),
       cols: sequenceLen,
-      rowLabels: ['Kick', 'Snare', 'Closed Hi-Hat', 'Open Hi-Hat', 'Low Tom', 'Mid Tom', 'Hi Tom', 'Crash', 'Ride'],
+      rowLabels: this.options.drums.map(drum => MuskiDrums.DrumLabels[drum]),
     });
 
     const steps = [];
@@ -80,12 +86,14 @@ export default class MuskiDrums {
       )
       .appendTo(this.$element);
 
-    this.$generateButton = $('<button></button>')
-      .attr('type', 'button')
-      .addClass(['btn', 'btn-primary'])
-      .text('Generate')
-      .on('click', async () => { this.handleGenerateButton(); })
-      .appendTo(this.$element);
+    if (this.ai) {
+      this.$generateButton = $('<button></button>')
+        .attr('type', 'button')
+        .addClass(['btn', 'btn-primary'])
+        .text('Generate')
+        .on('click', async () => { this.handleGenerateButton(); })
+        .appendTo(this.$element);
+    }
 
     this.$clearButton = $('<button></button>')
       .attr('type', 'button')
@@ -162,3 +170,15 @@ export default class MuskiDrums {
     }
   }
 }
+
+MuskiDrums.DrumLabels = {
+  kick: 'Kick',
+  snare: 'Snare',
+  hihatClosed: 'Closed Hi-Hat',
+  hihatOpen: 'Open Hi-Hat',
+  tomLow: 'Low Tom',
+  tomMid: 'Mid Tom',
+  tomHigh: 'Hi Tom',
+  crash: 'Crash',
+  ride: 'Ride',
+};

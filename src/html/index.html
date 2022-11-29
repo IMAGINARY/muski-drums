@@ -10,14 +10,40 @@
 <div class="container">
   <div class="row justify-content-center pt-4">
     <div class="col">
-      <div data-component="muski-drums">
+      <h2>Full:</h2>
+      <div data-component="muski-drums" data-with-ai="true">
         <div class="text-center">
           <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
       </div>
-      <div data-component="muski-drums">
+      <h2 class="mt-5">Full without AI:</h2>
+      <div data-component="muski-drums" data-with-ai="false">
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <h2 class="mt-5">Kick:</h2>
+      <div data-component="muski-drums" data-with-ai="false" data-drums="BD">
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <h2 class="mt-5">Kick + Snare:</h2>
+      <div data-component="muski-drums" data-with-ai="false" data-drums="BD,SD">
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <h2 class="mt-5">Kick + Snare + Hi-hat:</h2>
+      <div data-component="muski-drums" data-with-ai="false" data-drums="BD,SD,CH">
         <div class="text-center">
           <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>

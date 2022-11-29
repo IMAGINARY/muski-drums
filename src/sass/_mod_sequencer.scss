@@ -23,16 +23,18 @@ $cell-height: 40px;
 
     &.active {
       outline: 3px solid #ffff4b;
-      background-color: #efef9c;
+      background-color: #efef9c !important;
     }
 
     &.on {
-      background-color: #61dcbd;
+      background: none;
+      background-color: #61dcbd !important;
     }
 
     &.active.on {
+      background: none;
       outline: 3px solid #ffff4b;
-      background-color: #61dc7e;
+      background-color: #61dc7e !important;
     }
   }
 
