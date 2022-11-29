@@ -34,6 +34,7 @@ class MuskiToneTransportController {
 
 export default class MuskiToneTransportManager {
   constructor() {
+    this.toneStarted = false;
     this.activeController = null;
   }
 
@@ -46,6 +47,11 @@ export default class MuskiToneTransportManager {
   }
 
   onControllerStart(controller, bpm) {
+    if (!this.toneStarted) {
+      Tone.start();
+      this.toneStarted = true;
+    }
+
     if (!this.isRunning(controller)) {
       if (this.activeController) {
         this.onControllerStop(this.activeController);
