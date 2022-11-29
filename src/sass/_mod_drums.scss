@@ -3,10 +3,8 @@
   &.with-ai {
     .muski-sequencer-matrix {
       .muski-sequencer-cell {
-        @for $i from 4 through 15 {
-          &[data-col="#{$i}"] {
-            background-color: #efefef;
-          }
+        &.ai-input {
+          background-color: #efefef;
         }
       }
     }

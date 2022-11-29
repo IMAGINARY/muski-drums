@@ -4,7 +4,7 @@ import MuskiSequencer from './muski-sequencer';
 import { drumMap, reverseDrumMap } from './lib/midi-drums';
 
 const sequenceLen = 16;
-const inputLen = 4;
+const inputLen = 6;
 const BPM_DEFAULT = 100;
 const BPM_MIN = 80;
 const BPM_MAX = 200;
@@ -56,6 +56,15 @@ export default class MuskiDrums {
 
     this.sequencer.events.on('cell-on', (row) => { this.handleSequencerCellOn(row); });
 
+    if (this.ai !== null) {
+      Object.values(this.sequencer.$cellButtons).forEach((row) => {
+        row.forEach((cell, i) => {
+          if (i > inputLen - 1) {
+            cell.addClass('ai-input');
+          }
+        });
+      });
+    }
     this.$element.append(this.sequencer.$element);
 
     this.$playButton = $('<button></button>')
@@ -174,8 +183,8 @@ export default class MuskiDrums {
 MuskiDrums.DrumLabels = {
   kick: 'Kick',
   snare: 'Snare',
-  hihatClosed: 'Closed Hi-Hat',
-  hihatOpen: 'Open Hi-Hat',
+  hihatClosed: 'Closed Hi-hat',
+  hihatOpen: 'Open Hi-hat',
   tomLow: 'Low Tom',
   tomMid: 'Mid Tom',
   tomHigh: 'Hi Tom',
