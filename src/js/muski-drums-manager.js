@@ -1,6 +1,7 @@
 import * as Tone from 'tone';
 import MuskiRnnDrums from './muski-rnn-drums';
 import { drumMap } from './lib/midi-drums';
+import MuskiToneTransportManager from './muski-tone-transport-manager';
 
 export default class MuskiDrumsManager {
   constructor(options) {
@@ -21,6 +22,7 @@ export default class MuskiDrumsManager {
         this.initAi(),
         this.initSampler(),
       ]);
+      this.toneTransportManager = new MuskiToneTransportManager();
       this.initialized = true;
     }
   }
@@ -51,5 +53,9 @@ export default class MuskiDrumsManager {
         },
       }).toDestination();
     });
+  }
+
+  createToneTransport() {
+    return this.toneTransportManager.createController();
   }
 }

@@ -32,6 +32,10 @@ $btn-control-margin: 5px;
     $btn-control-round-diameter-lg * 0.5 * 0.5 - 5px;
 }
 
+.btn-control-round.btn-stop {
+  background-image: url('../../vendor/font-awesome/stop-solid.svg');
+}
+
 .btn-control-round.btn-pause {
   background-image: url('../../vendor/font-awesome/pause-solid.svg');
 }

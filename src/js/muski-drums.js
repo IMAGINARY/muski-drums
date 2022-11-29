@@ -1,3 +1,4 @@
+import EventEmitter from 'events';
 import * as Tone from 'tone';
 import MuskiSequencer from './muski-sequencer';
 import { drumMap, reverseDrumMap } from './lib/midi-drums';
@@ -9,14 +10,19 @@ const BPM_MIN = 80;
 const BPM_MAX = 200;
 
 export default class MuskiDrums {
-  constructor(manager = null) {
-    this.manager = manager;
-    this.playing = false;
+  constructor(ai, sampler, toneTransport) {
+    this.ai = ai;
+    this.sampler = sampler;
+    this.toneTransport = toneTransport;
+    this.toneTransport.events
+      .on('start', () => {
+        this.handleToneTransportStart();
+      }).on('stop', () => {
+        this.handleToneTransportStop();
+      });
     this.bpm = BPM_DEFAULT;
 
-    if (!this.manager.initialized) {
-      throw new Error('MuskiDrumsManager is not initialized.');
-    }
+    this.events = new EventEmitter();
 
     this.$element = $('<div></div>');
     this.sequencer = new MuskiSequencer({
@@ -32,11 +38,11 @@ export default class MuskiDrums {
     }
 
     this.toneSequece = new Tone.Sequence((time, step) => {
-      if (this.playing) {
+      if (this.isPlaying()) {
         const sequence = this.sequencer.getSequence();
         const notes = sequence[step];
         notes.forEach((note) => {
-          this.manager.sampler.player(String(note)).start(time, 0);
+          this.sampler.player(String(note)).start(time, 0);
         });
         this.sequencer.setActiveColumn(step);
       }
@@ -89,10 +95,35 @@ export default class MuskiDrums {
       .appendTo(this.$element);
   }
 
+  start() {
+    if (!this.isPlaying()) {
+      this.toneTransport.start(this.bpm);
+    }
+  }
+
+  stop() {
+    if (this.isPlaying()) {
+      this.toneTransport.stop();
+    }
+  }
+
+  isPlaying() {
+    return this.toneTransport && this.toneTransport.isRunning();
+  }
+
+  handleToneTransportStart() {
+    this.$playButton.removeClass('btn-play').addClass('btn-stop').text('Stop');
+  }
+
+  handleToneTransportStop() {
+    this.$playButton.removeClass('btn-stop').addClass('btn-play').text('Play');
+    this.sequencer.setActiveColumn(null);
+  }
+
   async handleGenerateButton() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
     console.log('Continung sequence:', sequence);
-    const continuation = await this.manager.ai.continueSeq(sequence, sequenceLen - inputLen, 1.4);
+    const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, 1.4);
     console.log('continuation', continuation);
     this.sequencer.clear(inputLen);
     continuation.notes.forEach((note) => {
@@ -109,31 +140,25 @@ export default class MuskiDrums {
     this.sequencer.clear();
   }
 
-  async handlePlayButton() {
-    if (!this.playing) {
-      this.playing = true;
-      this.$playButton.removeClass('btn-play').addClass('btn-pause').text('Pause');
-      Tone.Transport.bpm.value = this.bpm;
-      Tone.Transport.start();
+  handlePlayButton() {
+    if (!this.isPlaying()) {
+      this.start();
     } else {
-      Tone.Transport.stop();
-      this.sequencer.setActiveColumn(null);
-      this.$playButton.removeClass('btn-pause').addClass('btn-play').text('Play');
-      this.playing = false;
+      this.stop();
     }
   }
 
   handleSequencerCellOn(row) {
-    if (!this.playing) {
-      this.manager.sampler.player(row).start();
+    if (!this.isPlaying()) {
+      this.sampler.player(row).start();
     }
   }
 
   handleTempoChange(value) {
     this.$tempoDisplay.text(value);
     this.bpm = value;
-    if (this.playing) {
-      Tone.Transport.bpm.value = this.bpm;
+    if (this.isPlaying()) {
+      this.toneTransport.setBpm(value);
     }
   }
 }

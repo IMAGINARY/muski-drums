@@ -1,0 +1,76 @@
+.btn-control-round {
+  width: 40px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  margin: 5px;
+  background-color: #a8ff66;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 0;
+}
+.btn-control-round:hover {
+  background-color: #a8ff66 !important;
+}
+
+.btn-control-round-lg {
+  width: 60px;
+  height: 60px;
+}
+
+.btn-control-round-lg.btn-play {
+  background-image: url(2e99cfbe767d555f5308.svg);
+  background-position: 17px 10px;
+}
+
+.btn-control-round.btn-stop {
+  background-image: url(cc5de519f6a8417094ab.svg);
+}
+
+.btn-control-round.btn-pause {
+  background-image: url(277652d4bede1c769279.svg);
+}
+
+.btn-control-round-clear {
+  background-image: url(28f134481f7edf3f1c26.svg);
+}
+
+.muski-sequencer-matrix th {
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+.muski-sequencer-matrix td {
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  background-color: transparent;
+}
+.muski-sequencer-matrix .muski-sequencer-cell {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: #dcdcdc;
+  border: none;
+}
+.muski-sequencer-matrix .muski-sequencer-cell.active {
+  outline: 3px solid #ffff4b;
+  background-color: #efef9c;
+}
+.muski-sequencer-matrix .muski-sequencer-cell.on {
+  background-color: #61dcbd;
+}
+.muski-sequencer-matrix .muski-sequencer-cell.active.on {
+  outline: 3px solid #ffff4b;
+  background-color: #61dc7e;
+}
+.muski-sequencer-matrix .muski-sequencer-row-label {
+  padding-right: 1em;
+  text-align: right;
+}
+.muski-sequencer-matrix .muski-sequencer-col-label {
+  text-align: center;
+}
+
+/*# sourceMappingURL=default.f33523507a457d604d00.css.map*/

@@ -11,7 +11,8 @@ import MuskiDrums from './muski-drums';
     await drumsManager.init();
 
     $('[data-component=muski-drums]').each(async (i, element) => {
-      const drums = new MuskiDrums(drumsManager);
+      const { ai, sampler } = drumsManager;
+      const drums = new MuskiDrums(ai, sampler, drumsManager.createToneTransport());
       $(element).replaceWith(drums.$element);
     });
   }
