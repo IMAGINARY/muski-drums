@@ -1,0 +1,48 @@
+@keyframes fill-progress {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.bar-button {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background-color: white;
+  color: #000;
+
+  .bar-button-button {
+    margin-right: -15px;
+    z-index: 10;
+    border-radius: 15px;
+  }
+
+  .bar-button-bar {
+    position: relative;
+    overflow: hidden;
+    flex-grow: 1;
+    background-color: #efefef;
+
+    .progress {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 100%;
+      background-color: yellow;
+    }
+  }
+
+  &.held {
+    .bar-button-bar .progress {
+      animation-name: fill-progress;
+      animation-play-state: running;
+    }
+  }
+}

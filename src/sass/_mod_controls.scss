@@ -43,3 +43,38 @@ $btn-control-margin: 5px;
 .btn-control-round-clear {
   background-image: url('../../vendor/font-awesome/trash-can-solid.svg');
 }
+
+.muski-tempo {
+  display: inline-block;
+
+  .muski-tempo-label {
+    text-transform: uppercase;
+    font-size: 0.85em;
+    font-weight: bold;
+    background-color: #a9ff67;
+    padding: 0.2em 0.6em;
+  }
+
+  .muski-tempo-range {
+    width: 200px;
+    vertical-align: middle;
+  }
+
+  .muski-tempo-display {
+    display: inline-block;
+    min-width: 5em;
+  }
+}
+
+.muski-drums-controls-panel {
+  display: flex;
+  align-items: center;
+  padding-left: 8em;
+  width: 840px;
+
+  .btn-control-round-clear {
+    margin-left: auto;
+    margin-right: -3px;
+  }
+}
+

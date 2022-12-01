@@ -2,6 +2,7 @@ import EventEmitter from 'events';
 import * as Tone from 'tone';
 import MuskiSequencer from './muski-sequencer';
 import { drumMap, reverseDrumMap } from './lib/midi-drums';
+import BarButton from './lib/bar-button';
 
 const sequenceLen = 16;
 const inputLen = 6;
@@ -67,24 +68,42 @@ export default class MuskiDrums {
     }
     this.$element.append(this.sequencer.$element);
 
+    if (this.ai) {
+      this.$aiPanel = $('<div></div>')
+        .addClass('muski-drums-ai-panel')
+        .appendTo(this.$element);
+
+      this.generateButton = new BarButton({
+        buttonText: '<span class="icon icon-robot"></span> Generate <span class="icon icon-arrow"></span>',
+        holdTime: 1000,
+      });
+      this.generateButton.$element.appendTo(this.$aiPanel);
+      this.generateButton.events.on('action',
+        () => { this.handleGenerateButton(); });
+    }
+
+    this.$controlsPanel = $('<div></div>')
+      .addClass('muski-drums-controls-panel')
+      .appendTo(this.$element);
+
     this.$playButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-lg', 'btn-play'])
       .text('Play')
       .on('click', () => { this.handlePlayButton(); })
-      .appendTo(this.$element);
+      .appendTo(this.$controlsPanel);
 
     this.$tempoDisplay = $('<span></span>')
-      .addClass('muski-manager-tempo-display');
+      .addClass(['muski-tempo-display-field']);
 
     this.$tempoRange = $('<div></div>')
-      .addClass('form-group-tempo')
+      .addClass('muski-tempo')
       .append($('<label></label>')
-        .addClass('muski-manager-tempo-label')
-        .css('display', 'block')
-        .append(['Tempo: ', this.$tempoDisplay, 'bpm']))
+        .addClass(['muski-tempo-label', 'me-2', 'ms-3'])
+        .append(['Tempo: ']))
       .append(
         $('<input>')
+          .addClass(['form-range', 'muski-tempo-range'])
           .attr('type', 'range')
           .attr('min', BPM_MIN)
           .attr('max', BPM_MAX)
@@ -93,23 +112,17 @@ export default class MuskiDrums {
           .on('input', (e) => { this.handleTempoChange(e.target.value); })
           .trigger('input')
       )
-      .appendTo(this.$element);
-
-    if (this.ai) {
-      this.$generateButton = $('<button></button>')
-        .attr('type', 'button')
-        .addClass(['btn', 'btn-primary'])
-        .text('Generate')
-        .on('click', async () => { this.handleGenerateButton(); })
-        .appendTo(this.$element);
-    }
+      .append($('<span></span>')
+        .addClass(['muski-tempo-display', 'ms-2'])
+        .append([this.$tempoDisplay, ' bpm']))
+      .appendTo(this.$controlsPanel);
 
     this.$clearButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-clear'])
       .text('Clear')
       .on('click', () => { this.handleClearButton(); })
-      .appendTo(this.$element);
+      .appendTo(this.$controlsPanel);
   }
 
   start() {

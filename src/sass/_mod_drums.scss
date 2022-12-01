@@ -1,5 +1,4 @@
 .muski-drums {
-
   &.with-ai {
     .muski-sequencer-matrix {
       .muski-sequencer-cell {
@@ -7,6 +6,47 @@
           background-color: #efefef;
         }
       }
+    }
+  }
+
+  .bar-button {
+    width: 840px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+
+    .bar-button-button {
+      margin-left: 250px;
+      background-color: #a8ff66;
+      border-color: #a8ff66;
+      color: black;
+      font-size: 0.85em;
+      font-weight: bold;
+    }
+
+    .bar-button-bar .progress {
+      background-color: #60dcbd;
+    }
+
+    .icon {
+      width: 1.5em;
+      height: 1.5em;
+      display: inline-block;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      vertical-align: bottom;
+    }
+
+    .icon-robot {
+      background-image: url('../../vendor/font-awesome/robot-solid.svg');
+      width: 2em;
+      height: 2em;
+      margin: -0.5em 0.7em -0.1em -0.1em;
+    }
+
+    .icon-arrow {
+      background-image: url('../../vendor/font-awesome/arrow-right-solid.svg');
+      margin-left: 0.5em;
     }
   }
 }
