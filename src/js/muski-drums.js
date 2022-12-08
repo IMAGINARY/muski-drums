@@ -75,11 +75,14 @@ export default class MuskiDrums {
 
       this.generateButton = new BarButton({
         buttonText: '<span class="icon icon-robot"></span> Generate <span class="icon icon-arrow"></span>',
-        holdTime: 1000,
+        animationTime: 500,
       });
       this.generateButton.$element.appendTo(this.$aiPanel);
-      this.generateButton.events.on('action',
-        () => { this.handleGenerateButton(); });
+      this.generateButton.events.on('start',
+        async () => {
+          await this.handleGenerateButton();
+          this.generateButton.done();
+        });
     }
 
     this.$controlsPanel = $('<div></div>')
@@ -180,7 +183,7 @@ export default class MuskiDrums {
 
   handleSequencerCellOn(row) {
     if (!this.isPlaying()) {
-      this.sampler.player(row).start();
+      this.sampler.player(String(row)).start();
     }
   }
 

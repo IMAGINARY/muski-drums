@@ -4,13 +4,16 @@ export default class BarButton {
   constructor(options) {
     const defaultOptions = {
       buttonText: '',
-      holdTime: 1000,
+      animationTime: 500,
+      processTimeout: 15000,
     };
     this.options = Object.assign({}, defaultOptions, options);
+    this.animationTimeout = null;
+    this.processTimeout = null;
+    this.isProcessing = false;
+    this.isAnimating = false;
 
     this.events = new EventEmitter();
-    this.holdTimeout = null;
-    this.trackedPointerId = null;
 
     this.$element = $('<div></div>')
       .addClass('bar-button');
@@ -19,14 +22,9 @@ export default class BarButton {
       .attr('type', 'button')
       .addClass(['btn', 'btn-secondary', 'bar-button-button'])
       .html(this.options.buttonText)
-      .on('pointerdown', (ev) => {
-        if (this.trackedPointerId === null) {
-          ev.preventDefault();
-          this.trackedPointerId = ev.pointerId;
-          // On touch, apparently, the pointer is automatically captured by pointerdown
-          ev.delegateTarget.releasePointerCapture(ev.pointerId);
-          this.handleHoldStart();
-        }
+      .on('click', (ev) => {
+        ev.preventDefault();
+        this.handleStart();
       })
       .appendTo(this.$element);
 
@@ -35,45 +33,49 @@ export default class BarButton {
       .append(
         $('<span class="progress"></span>')
           .css({
-            animationDuration: `${this.options.holdTime}ms`,
+            animationDuration: `${this.options.animationTime}ms`,
           })
       )
       .appendTo(this.$element);
-
-    $(document)
-      .on('pointerup', (ev) => {
-        if (ev.pointerId === this.trackedPointerId) {
-          this.handleHoldAbort();
-        }
-      })
-      .on('pointercancel', (ev) => {
-        if (ev.pointerId === this.trackedPointerId) {
-          this.handleHoldAbort();
-        }
-      });
   }
 
-  handleHoldStart() {
-    if (this.holdTimeout !== null) {
-      clearTimeout(this.holdTimeout);
-      this.holdTimeout = null;
-    }
-
-    this.$element.addClass('held');
-    this.holdTimeout = setTimeout(() => {
-      this.holdTimeout = null;
-      this.trackedPointerId = null;
-      this.events.emit('action');
-      this.$element.removeClass('held');
-    }, this.options.holdTime);
+  done() {
+    this.handleDone();
   }
 
-  handleHoldAbort() {
-    if (this.holdTimeout !== null) {
-      clearTimeout(this.holdTimeout);
-      this.holdTimeout = null;
+  handleStart() {
+    if (!this.isProcessing) {
+      this.$element.addClass('in-progress');
+      this.isAnimating = true;
+      this.isProcessing = true;
+
+      this.animationTimeout = setTimeout(() => {
+        this.animationTimeout = null;
+        this.isAnimating = false;
+        this.updateProgress();
+        this.events.emit('start');
+      }, this.options.animationTime);
+
+      this.processTimeout = setTimeout(() => {
+        this.processTimeout = null;
+        this.handleDone();
+        this.events.emit('abort');
+      }, this.options.processTimeout);
     }
-    this.$element.removeClass('held');
-    this.trackedPointerId = null;
+  }
+
+  handleDone() {
+    if (this.processTimeout) {
+      clearTimeout(this.processTimeout);
+      this.processTimeout = null;
+    }
+    this.isProcessing = false;
+    this.updateProgress();
+  }
+
+  updateProgress() {
+    if (!this.isProcessing && !this.isAnimating) {
+      this.$element.removeClass('in-progress');
+    }
   }
 }

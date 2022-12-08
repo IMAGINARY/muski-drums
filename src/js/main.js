@@ -18,7 +18,7 @@ const drumArgs = {
   if ($('[data-component=muski-drums]').length > 0) {
     const drumsManager = new MuskiDrumsManager({
       aiCheckpointUrl: 'checkpoints/drums_rnn',
-      soundFontUrl: 'sounds/drums/',
+      soundFontUrl: 'sounds/dmx/',
     });
     await drumsManager.init();
 
