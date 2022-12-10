@@ -1,0 +1,199 @@
+@keyframes fill-progress {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+.bar-button {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background-color: white;
+  color: #000;
+}
+.bar-button .bar-button-button {
+  margin-right: -15px;
+  z-index: 10;
+  border-radius: 15px;
+}
+.bar-button .bar-button-bar {
+  position: relative;
+  overflow: hidden;
+  flex-grow: 1;
+  background-color: #efefef;
+}
+.bar-button .bar-button-bar .progress {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  background-color: yellow;
+}
+.bar-button.held .bar-button-bar .progress {
+  animation-name: fill-progress;
+  animation-play-state: running;
+}
+.bar-button.in-progress .bar-button-bar .progress {
+  animation-name: fill-progress;
+  animation-play-state: running;
+}
+
+.btn-control-round {
+  width: 40px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  margin: 5px;
+  background-color: #a8ff66;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 0;
+}
+.btn-control-round:hover {
+  background-color: #a8ff66 !important;
+}
+
+.btn-control-round-lg {
+  width: 60px;
+  height: 60px;
+}
+
+.btn-control-round-lg.btn-play {
+  background-image: url(2e99cfbe767d555f5308.svg);
+  background-position: 17px 10px;
+}
+
+.btn-control-round.btn-stop {
+  background-image: url(cc5de519f6a8417094ab.svg);
+}
+
+.btn-control-round.btn-pause {
+  background-image: url(277652d4bede1c769279.svg);
+}
+
+.btn-control-round-clear {
+  background-image: url(28f134481f7edf3f1c26.svg);
+}
+
+.muski-tempo {
+  display: inline-block;
+}
+.muski-tempo .muski-tempo-label {
+  text-transform: uppercase;
+  font-size: 0.85em;
+  font-weight: bold;
+  background-color: #a9ff67;
+  padding: 0.2em 0.6em;
+}
+.muski-tempo .muski-tempo-range {
+  width: 200px;
+  vertical-align: middle;
+}
+.muski-tempo .muski-tempo-display {
+  display: inline-block;
+  min-width: 5em;
+}
+
+.muski-drums-controls-panel {
+  display: flex;
+  align-items: center;
+  padding-left: 8em;
+  width: 840px;
+}
+.muski-drums-controls-panel .btn-control-round-clear {
+  margin-left: auto;
+  margin-right: -3px;
+}
+
+.muski-sequencer-matrix th {
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+.muski-sequencer-matrix td {
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  background-color: transparent;
+}
+.muski-sequencer-matrix .muski-sequencer-cell {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: #dcdcdc;
+  border: none;
+}
+.muski-sequencer-matrix .muski-sequencer-cell.active {
+  outline: 3px solid #ffff4b;
+  background-color: #efef9c !important;
+}
+.muski-sequencer-matrix .muski-sequencer-cell.on {
+  background: none;
+  background-color: #61dcbd !important;
+}
+.muski-sequencer-matrix .muski-sequencer-cell.active.on {
+  background: none;
+  outline: 3px solid #ffff4b;
+  background-color: #61dc7e !important;
+}
+.muski-sequencer-matrix .muski-sequencer-row-label {
+  padding-right: 1em;
+  text-align: right;
+  width: 10em;
+  overflow: hidden;
+}
+.muski-sequencer-matrix .muski-sequencer-col-label {
+  text-align: center;
+}
+
+.muski-drums.with-ai .muski-sequencer-matrix .muski-sequencer-cell.ai-input, .muski-bass.with-ai .muski-sequencer-matrix .muski-sequencer-cell.ai-input {
+  background-color: #efefef;
+}
+.muski-drums .bar-button, .muski-bass .bar-button {
+  width: 840px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+.muski-drums .bar-button .bar-button-button, .muski-bass .bar-button .bar-button-button {
+  margin-left: 250px;
+  background-color: #a8ff66;
+  border-color: #a8ff66;
+  color: black;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+.muski-drums .bar-button .bar-button-bar .progress, .muski-bass .bar-button .bar-button-bar .progress {
+  background-color: #60dcbd;
+}
+.muski-drums .bar-button .icon, .muski-bass .bar-button .icon {
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  vertical-align: bottom;
+}
+.muski-drums .bar-button .icon-robot, .muski-bass .bar-button .icon-robot {
+  background-image: url(6534f15f99ee6afe7e0d.svg);
+  width: 2em;
+  height: 2em;
+  margin: -0.5em 0.7em -0.1em -0.1em;
+}
+.muski-drums .bar-button .icon-arrow, .muski-bass .bar-button .icon-arrow {
+  background-image: url(570763fb06b0528a09d5.svg);
+  margin-left: 0.5em;
+}
+
+.muski-bass .bar-button .bar-button-button {
+  margin-left: 160px;
+}
+
+/*# sourceMappingURL=default.b76655432b026e81e2da.css.map*/

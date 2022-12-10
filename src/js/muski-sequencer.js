@@ -13,12 +13,15 @@ export default class MuskiSequencer {
    *  (optional, default: 16) The number of columns in the sequencer.
    * @param {boolean} options.labelColumns
    *  (optional, default: true) Whether to label the columns.
+   * @param {string} options.monophonic
+   *  (optional, default: false) Whether more than one row can be active in a column.
    */
   constructor(options) {
     const defaultOptions = {
       cols: 16,
       labelColumns: true,
       rowLabels: null,
+      monophonic: false,
     };
 
     if (!options.rows || !Array.isArray(options.rows)) {
@@ -134,8 +137,7 @@ export default class MuskiSequencer {
    *  Column number.
    */
   toggleCell(row, col) {
-    this.validateRowCol(row, col);
-    this.$cellButtons[String(row)][col].toggleClass('on');
+    this.setCell(row, col, this.getCell(row, col) === false);
   }
 
   /**
@@ -149,6 +151,10 @@ export default class MuskiSequencer {
    */
   setCell(row, col, state) {
     this.validateRowCol(row, col);
+    if (this.options.monophonic && state) {
+      this.clear(col, col + 1);
+    }
+
     this.$cellButtons[String(row)][col].toggleClass('on', state);
   }
 

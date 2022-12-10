@@ -8,7 +8,7 @@ const sequenceLen = 16;
 const inputLen = 6;
 const BPM_DEFAULT = 100;
 const BPM_MIN = 80;
-const BPM_MAX = 200;
+const BPM_MAX = 160;
 
 export default class MuskiDrums {
   constructor(ai = null, sampler, toneTransport, userOptions = {}) {

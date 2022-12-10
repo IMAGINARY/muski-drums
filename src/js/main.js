@@ -1,6 +1,8 @@
 import '../sass/default.scss';
 import MuskiDrumsManager from './muski-drums-manager';
+import MuskiBassManager from './muski-bass-manager';
 import MuskiDrums from './muski-drums';
+import MuskiBass from './muski-bass';
 
 const drumArgs = {
   BD: 'kick',
@@ -41,6 +43,29 @@ const drumArgs = {
         options
       );
       $(element).replaceWith(drums.$element);
+    });
+  }
+
+  if ($('[data-component=muski-bass]').length > 0) {
+    const bassManager = new MuskiBassManager({
+      aiCheckpointUrl: 'checkpoints/chord_pitches_improv',
+    });
+    await bassManager.init();
+
+    $('[data-component=muski-bass]').each(async (i, element) => {
+      const { ai, synth } = bassManager;
+      const withAI = $(element).data('with-ai') !== false;
+      const options = Object.fromEntries(
+        Object.entries({
+        }).filter(([, v]) => v !== undefined)
+      );
+      const bass = new MuskiBass(
+        withAI ? ai : null,
+        synth,
+        bassManager.createToneTransport(),
+        options
+      );
+      $(element).replaceWith(bass.$element);
     });
   }
 })();

@@ -1,4 +1,4 @@
-.muski-drums {
+.muski-drums, .muski-bass {
   &.with-ai {
     .muski-sequencer-matrix {
       .muski-sequencer-cell {
@@ -47,6 +47,14 @@
     .icon-arrow {
       background-image: url('../../vendor/font-awesome/arrow-right-solid.svg');
       margin-left: 0.5em;
+    }
+  }
+}
+
+.muski-bass {
+  .bar-button {
+    .bar-button-button {
+      margin-left: 160px;
     }
   }
 }

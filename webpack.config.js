@@ -55,6 +55,12 @@ module.exports = {
       chunks: ['default'],
       minify: true,
     }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'src/html/index-bass.html'),
+      filename: path.resolve(__dirname, 'index-bass.html'),
+      chunks: ['default'],
+      minify: true,
+    }),
     new CleanWebpackPlugin({
       // todo: temporary measure. Dev builds should be done without hashes in the filename.
       cleanOnceBeforeBuildPatterns: ['**/*'],
