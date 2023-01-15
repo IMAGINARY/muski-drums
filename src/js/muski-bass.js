@@ -196,9 +196,7 @@ export default class MuskiBass {
 
   async handleGenerateButton() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
-    console.log('Continung sequence:', sequence);
     const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, 1, ['C']);
-    console.log('continuation', continuation);
     this.sequencer.clear(inputLen);
     let notesFiltered = 0;
     let notesAdjusted = 0;
@@ -223,7 +221,6 @@ export default class MuskiBass {
         notesFiltered += 1;
       }
     });
-    console.log(`notesFiltered: ${notesFiltered} notesAdjusted: ${notesAdjusted} notesShifted: ${notesShifted}`);
   }
 
   handleClearButton() {

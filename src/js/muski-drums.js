@@ -164,9 +164,7 @@ export default class MuskiDrums {
 
   async handleGenerateButton() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
-    console.log('Continung sequence:', sequence);
     const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, DEFAULT_TEMPERATURE);
-    console.log('continuation', continuation);
     this.sequencer.clear(inputLen);
     continuation.notes.forEach((note) => {
       const normalizedPitch = drumMap[reverseDrumMap[note.pitch]];

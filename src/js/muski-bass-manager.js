@@ -29,10 +29,8 @@ export default class MuskiBassManager {
     if (!this.options.aiCheckpointUrl) {
       throw new Error('MuskiBassManager: aiCheckpointUrl is not set.');
     }
-    console.log('Initializing AI...');
     this.ai = new MuskiRnnBass();
     await this.ai.init(this.options.aiCheckpointUrl);
-    console.log('Initializing AI done.');
     return this.ai;
   }
 

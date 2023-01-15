@@ -14,9 +14,7 @@ export default class MuskiRnnDrums {
 
   async continueSeq(seq, steps, temperature) {
     const noteSeq = buildNoteSequence(seq, 4, 120);
-    console.log('noteSeq', noteSeq);
     const quantNoteSeq = sequences.quantizeNoteSequence(noteSeq, 4);
-    console.log('quantNoteSeq', quantNoteSeq);
     const continuation = await this.drumsRnn.continueSequence(quantNoteSeq, steps, temperature);
     return continuation;
   }

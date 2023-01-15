@@ -31,10 +31,8 @@ export default class MuskiDrumsManager {
     if (!this.options.aiCheckpointUrl) {
       throw new Error('MuskiDrumsManager: aiCheckpointUrl is not set.');
     }
-    console.log('Initializing AI...');
     this.ai = new MuskiRnnDrums();
     await this.ai.init(this.options.aiCheckpointUrl);
-    console.log('Initializing AI done.');
     return this.ai;
   }
 
@@ -43,12 +41,10 @@ export default class MuskiDrumsManager {
       throw new Error('MuskiDrumsManager: soundFontUrl is not set.');
     }
     return new Promise((resolve) => {
-      console.log('Loading sounds...');
       this.sampler = new Tone.Players({
         urls: Object.fromEntries(Object.values(drumMap).map(pitch => [String(pitch), `${pitch}.mp3`])),
         baseUrl: this.options.soundFontUrl,
         onload: () => {
-          console.log('Loading sounds done.');
           resolve(this.sampler);
         },
       }).toDestination();

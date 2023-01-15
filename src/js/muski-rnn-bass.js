@@ -14,9 +14,7 @@ export default class MuskiRnnBass {
 
   async continueSeq(seq, steps, temperature, chords) {
     const noteSeq = buildNoteSequence(seq, 4, 100);
-    console.log('noteSeq', noteSeq);
     const quantNoteSeq = sequences.quantizeNoteSequence(noteSeq, 4);
-    console.log('quantNoteSeq', quantNoteSeq);
     const continuation = await this.bassRnn.continueSequence(
       quantNoteSeq, steps, temperature, chords
     );
