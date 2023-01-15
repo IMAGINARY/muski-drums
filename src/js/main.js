@@ -18,9 +18,12 @@ const drumArgs = {
 
 (async () => {
   if ($('[data-component=muski-drums]').length > 0) {
+    const aiCheckpointUrl = $('[data-component=muski-drums][data-ai-checkpoint]').data('ai-checkpoint');
+    const soundfontUrl = $('[data-component=muski-drums][data-soundfont]').data('soundfont');
+
     const drumsManager = new MuskiDrumsManager({
-      aiCheckpointUrl: 'checkpoints/drums_rnn',
-      soundFontUrl: 'sounds/dmx/',
+      aiCheckpointUrl: aiCheckpointUrl || 'checkpoints/drums_rnn',
+      soundFontUrl: soundfontUrl || 'sounds/dmx/',
     });
     await drumsManager.init();
     $('[data-component=muski-drums]').each(async (i, element) => {
@@ -50,8 +53,9 @@ const drumArgs = {
   }
 
   if ($('[data-component=muski-bass]').length > 0) {
+    const aiCheckpointUrl = $('[data-component=muski-bass][data-ai-checkpoint]').data('ai-checkpoint');
     const bassManager = new MuskiBassManager({
-      aiCheckpointUrl: 'checkpoints/chord_pitches_improv',
+      aiCheckpointUrl: aiCheckpointUrl || 'checkpoints/chord_pitches_improv',
     });
     await bassManager.init();
 
