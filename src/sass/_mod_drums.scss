@@ -47,6 +47,15 @@
     .icon-arrow {
       background-image: url('../../vendor/font-awesome/arrow-right-solid.svg');
       margin-left: 0.5em;
+      position: absolute;
+      right: 10px;
+    }
+
+    .icon-random {
+      background-image: url('../../vendor/font-awesome/dice-solid.svg');
+      width: 2em;
+      height: 2em;
+      margin: -0.5em 0.7em -0.1em -0.1em;
     }
   }
 }
@@ -54,7 +63,10 @@
 .muski-bass {
   .bar-button {
     .bar-button-button {
-      margin-left: 160px;
+      position: relative;
+      margin-left: 136px;
+      width: 187px;
+      text-align: left;
     }
   }
 }

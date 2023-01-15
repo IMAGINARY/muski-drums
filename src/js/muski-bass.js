@@ -35,10 +35,10 @@ const BassNotes = {
 };
 
 export default class MuskiBass {
-  constructor(ai = null, synth, toneTransport, userOptions = {}) {
+  constructor(ai = null, synth, toneTransport, options = {}) {
     const defaultOptions = {
     };
-    this.options = Object.assign({}, defaultOptions, userOptions);
+    this.options = Object.assign({}, defaultOptions, options);
 
     this.ai = ai;
     this.synth = synth;
@@ -107,6 +107,23 @@ export default class MuskiBass {
         async () => {
           await this.handleGenerateButton();
           this.generateButton.done();
+        });
+    }
+
+    if (this.options.withRandom) {
+      this.$randomPanel = $('<div></div>')
+        .addClass('muski-bass-random-panel')
+        .appendTo(this.$element);
+
+      this.randomButton = new BarButton({
+        buttonText: '<span class="icon icon-random"></span> Random <span class="icon icon-arrow"></span>',
+        animationTime: 500,
+      });
+      this.randomButton.$element.appendTo(this.$randomPanel);
+      this.randomButton.events.on('start',
+        async () => {
+          await this.handleRandomButton();
+          this.randomButton.done();
         });
     }
 
@@ -182,7 +199,7 @@ export default class MuskiBass {
   async handleGenerateButton() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
     console.log('Continung sequence:', sequence);
-    const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, 1.1, ['C']);
+    const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, 1, ['C']);
     console.log('continuation', continuation);
     this.sequencer.clear(inputLen);
     let notesFiltered = 0;
@@ -234,6 +251,21 @@ export default class MuskiBass {
     this.bpm = value;
     if (this.isPlaying()) {
       this.toneTransport.setBpm(value);
+    }
+  }
+
+  handleRandomButton() {
+    this.sequencer.clear(inputLen);
+    for (let i = inputLen; i < sequenceLen; i += 1) {
+      const index = Math.floor(Math.random() * (Object.keys(BassNotes).length + 1));
+      if (index !== 0) {
+        const note = BassNotes[Object.keys(BassNotes)[index - 1]];
+        this.sequencer.setCell(
+          String(note),
+          i,
+          true
+        );
+      }
     }
   }
 }

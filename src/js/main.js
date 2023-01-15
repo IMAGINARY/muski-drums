@@ -55,8 +55,10 @@ const drumArgs = {
     $('[data-component=muski-bass]').each(async (i, element) => {
       const { ai, synth } = bassManager;
       const withAI = $(element).data('with-ai') !== false;
+      const withRandom = $(element).data('with-random') !== false;
       const options = Object.fromEntries(
         Object.entries({
+          withRandom,
         }).filter(([, v]) => v !== undefined)
       );
       const bass = new MuskiBass(
