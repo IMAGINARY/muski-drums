@@ -9,6 +9,7 @@ const inputLen = 6;
 const BPM_DEFAULT = 100;
 const BPM_MIN = 80;
 const BPM_MAX = 160;
+const DEFAULT_TEMPERATURE = 1.2;
 
 export default class MuskiDrums {
   constructor(ai = null, sampler, toneTransport, userOptions = {}) {
@@ -156,7 +157,7 @@ export default class MuskiDrums {
   async handleGenerateButton() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
     console.log('Continung sequence:', sequence);
-    const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, 1.4);
+    const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, DEFAULT_TEMPERATURE);
     console.log('continuation', continuation);
     this.sequencer.clear(inputLen);
     continuation.notes.forEach((note) => {
