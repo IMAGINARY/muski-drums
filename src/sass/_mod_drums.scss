@@ -15,10 +15,13 @@
     margin-bottom: 8px;
 
     .bar-button-button {
-      margin-left: 250px;
+      width: 274px;
+      position: relative;
+      margin-left: 136px;
       background-color: #a8ff66;
       border-color: #a8ff66;
       color: black;
+      text-align: left;
       font-size: 0.85em;
       font-weight: bold;
     }
@@ -63,10 +66,7 @@
 .muski-bass {
   .bar-button {
     .bar-button-button {
-      position: relative;
-      margin-left: 136px;
       width: 187px;
-      text-align: left;
     }
   }
 }
