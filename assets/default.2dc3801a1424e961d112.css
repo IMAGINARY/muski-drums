@@ -6,25 +6,25 @@
     width: 100%;
   }
 }
-.bar-button {
+.muski-drums .bar-button, .muski-bass .bar-button {
   display: flex;
   position: relative;
   overflow: hidden;
   background-color: white;
   color: #000;
 }
-.bar-button .bar-button-button {
+.muski-drums .bar-button .bar-button-button, .muski-bass .bar-button .bar-button-button {
   margin-right: -15px;
   z-index: 10;
   border-radius: 15px;
 }
-.bar-button .bar-button-bar {
+.muski-drums .bar-button .bar-button-bar, .muski-bass .bar-button .bar-button-bar {
   position: relative;
   overflow: hidden;
   flex-grow: 1;
   background-color: #efefef;
 }
-.bar-button .bar-button-bar .progress {
+.muski-drums .bar-button .bar-button-bar .progress, .muski-bass .bar-button .bar-button-bar .progress {
   content: " ";
   display: block;
   position: absolute;
@@ -35,16 +35,15 @@
   height: 100%;
   background-color: #fffe81;
 }
-.bar-button.held .bar-button-bar .progress {
+.muski-drums .bar-button.held .bar-button-bar .progress, .muski-bass .bar-button.held .bar-button-bar .progress {
   animation-name: fill-progress;
   animation-play-state: running;
 }
-.bar-button.in-progress .bar-button-bar .progress {
+.muski-drums .bar-button.in-progress .bar-button-bar .progress, .muski-bass .bar-button.in-progress .bar-button-bar .progress {
   animation-name: fill-progress;
   animation-play-state: running;
 }
-
-.btn-control-round {
+.muski-drums .btn-control-round, .muski-bass .btn-control-round {
   width: 40px;
   height: 40px;
   border: none;
@@ -57,99 +56,91 @@
   background-position: center;
   font-size: 0;
 }
-.btn-control-round:hover {
+.muski-drums .btn-control-round:hover, .muski-bass .btn-control-round:hover {
   background-color: #97ff94 !important;
 }
-
-.btn-control-round-lg {
+.muski-drums .btn-control-round-lg, .muski-bass .btn-control-round-lg {
   width: 60px;
   height: 60px;
 }
-
-.btn-control-round-lg.btn-play {
+.muski-drums .btn-control-round-lg.btn-play, .muski-bass .btn-control-round-lg.btn-play {
   background-image: url(2e99cfbe767d555f5308.svg);
   background-position: 17px 10px;
 }
-
-.btn-control-round.btn-stop {
+.muski-drums .btn-control-round.btn-stop, .muski-bass .btn-control-round.btn-stop {
   background-image: url(cc5de519f6a8417094ab.svg);
 }
-
-.btn-control-round.btn-pause {
+.muski-drums .btn-control-round.btn-pause, .muski-bass .btn-control-round.btn-pause {
   background-image: url(277652d4bede1c769279.svg);
 }
-
-.btn-control-round-clear {
+.muski-drums .btn-control-round-clear, .muski-bass .btn-control-round-clear {
   background-image: url(28f134481f7edf3f1c26.svg);
 }
-
-.muski-tempo {
+.muski-drums .muski-tempo, .muski-bass .muski-tempo {
   display: inline-block;
 }
-.muski-tempo .muski-tempo-label {
+.muski-drums .muski-tempo .muski-tempo-label, .muski-bass .muski-tempo .muski-tempo-label {
   text-transform: uppercase;
   font-size: 0.85em;
   font-weight: bold;
   background-color: #fffe81;
   padding: 0.2em 0.6em;
 }
-.muski-tempo .muski-tempo-range {
+.muski-drums .muski-tempo .muski-tempo-range, .muski-bass .muski-tempo .muski-tempo-range {
   width: 200px;
   vertical-align: middle;
 }
-.muski-tempo .muski-tempo-display {
+.muski-drums .muski-tempo .muski-tempo-display, .muski-bass .muski-tempo .muski-tempo-display {
   display: inline-block;
   min-width: 5em;
 }
-
-.muski-drums-controls-panel {
+.muski-drums .muski-drums-controls-panel, .muski-bass .muski-drums-controls-panel {
   display: flex;
   align-items: center;
   padding-left: 8em;
   width: 840px;
 }
-.muski-drums-controls-panel .btn-control-round-clear {
+.muski-drums .muski-drums-controls-panel .btn-control-round-clear, .muski-bass .muski-drums-controls-panel .btn-control-round-clear {
   margin-left: auto;
   margin-right: -3px;
 }
-
-.muski-sequencer-matrix th {
+.muski-drums .muski-sequencer-matrix th, .muski-bass .muski-sequencer-matrix th {
   font-size: 0.85rem;
   font-weight: normal;
 }
-.muski-sequencer-matrix td {
+.muski-drums .muski-sequencer-matrix td, .muski-bass .muski-sequencer-matrix td {
   width: 40px;
   height: 40px;
   border: 2px solid white;
   background-color: transparent;
 }
-.muski-sequencer-matrix .muski-sequencer-cell {
+.muski-drums .muski-sequencer-matrix .muski-sequencer-cell, .muski-bass .muski-sequencer-matrix .muski-sequencer-cell {
   display: block;
   width: 40px;
   height: 40px;
   background-color: #dcdcdc;
   border: none;
 }
-.muski-sequencer-matrix .muski-sequencer-cell.active {
+.muski-drums .muski-sequencer-matrix .muski-sequencer-cell.active, .muski-bass .muski-sequencer-matrix .muski-sequencer-cell.active {
   outline: 3px solid #fffe81;
   background-color: #fffe81 !important;
 }
-.muski-sequencer-matrix .muski-sequencer-cell.on {
+.muski-drums .muski-sequencer-matrix .muski-sequencer-cell.on, .muski-bass .muski-sequencer-matrix .muski-sequencer-cell.on {
   background: none;
   background-color: #73e1db !important;
 }
-.muski-sequencer-matrix .muski-sequencer-cell.active.on {
+.muski-drums .muski-sequencer-matrix .muski-sequencer-cell.active.on, .muski-bass .muski-sequencer-matrix .muski-sequencer-cell.active.on {
   background: none;
   outline: 3px solid #fffe81;
   background-color: #8ffff9 !important;
 }
-.muski-sequencer-matrix .muski-sequencer-row-label {
+.muski-drums .muski-sequencer-matrix .muski-sequencer-row-label, .muski-bass .muski-sequencer-matrix .muski-sequencer-row-label {
   padding-right: 1em;
   text-align: right;
   width: 10em;
   overflow: hidden;
 }
-.muski-sequencer-matrix .muski-sequencer-col-label {
+.muski-drums .muski-sequencer-matrix .muski-sequencer-col-label, .muski-bass .muski-sequencer-matrix .muski-sequencer-col-label {
   text-align: center;
 }
 
@@ -207,4 +198,4 @@
   width: 187px;
 }
 
-/*# sourceMappingURL=default.79da7e10e60145c97f38.css.map*/
+/*# sourceMappingURL=default.2dc3801a1424e961d112.css.map*/
