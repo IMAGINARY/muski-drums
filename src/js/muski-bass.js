@@ -2,6 +2,8 @@ import EventEmitter from 'events';
 import * as Tone from 'tone';
 import MuskiSequencer from './muski-sequencer';
 import BarButton from './lib/bar-button';
+import StringsEn from './i18n/en';
+import StringsDe from './i18n/de';
 
 const sequenceLen = 16;
 const inputLen = 4;
@@ -9,15 +11,10 @@ const BPM_DEFAULT = 100;
 const BPM_MIN = 80;
 const BPM_MAX = 160;
 
-// const BassNotes = {
-//   C: 'C3',
-//   D: 'D3',
-//   E: 'E3',
-//   F: 'F3',
-//   G: 'G3',
-//   A: 'A3',
-//   B: 'B3',
-// };
+const Strings = {
+  en: StringsEn,
+  de: StringsDe,
+};
 
 const BassNotes = {
   C: 48,
@@ -39,6 +36,7 @@ export default class MuskiBass {
     const defaultOptions = {
     };
     this.options = Object.assign({}, defaultOptions, options);
+    this.strings = Strings[this.options.lang] || Strings.en;
 
     this.ai = ai;
     this.synth = synth;
@@ -59,7 +57,7 @@ export default class MuskiBass {
     this.sequencer = new MuskiSequencer({
       rows: Object.values(BassNotes),
       cols: sequenceLen,
-      rowLabels: Object.keys(BassNotes),
+      rowLabels: Object.keys(BassNotes).map(note => this.strings.notes[note]),
       monophonic: true,
     });
 
@@ -99,7 +97,7 @@ export default class MuskiBass {
         .appendTo(this.$element);
 
       this.generateButton = new BarButton({
-        buttonText: '<span class="icon icon-robot"></span> Generate <span class="icon icon-arrow"></span>',
+        buttonText: `<span class="icon icon-robot"></span> ${this.strings.ui.generate} <span class="icon icon-arrow"></span>`,
         animationTime: 500,
       });
       this.generateButton.$element.appendTo(this.$aiPanel);
@@ -116,7 +114,7 @@ export default class MuskiBass {
         .appendTo(this.$element);
 
       this.randomButton = new BarButton({
-        buttonText: '<span class="icon icon-random"></span> Random <span class="icon icon-arrow"></span>',
+        buttonText: `<span class="icon icon-random"></span> ${this.strings.ui.random} <span class="icon icon-arrow"></span>`,
         animationTime: 500,
       });
       this.randomButton.$element.appendTo(this.$randomPanel);
@@ -134,7 +132,7 @@ export default class MuskiBass {
     this.$playButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-lg', 'btn-play'])
-      .text('Play')
+      .text(this.strings.ui.play)
       .on('click', () => { this.handlePlayButton(); })
       .appendTo(this.$controlsPanel);
 
@@ -145,7 +143,7 @@ export default class MuskiBass {
       .addClass('muski-tempo')
       .append($('<label></label>')
         .addClass(['muski-tempo-label', 'me-2', 'ms-3'])
-        .append(['Tempo: ']))
+        .append([`${this.strings.ui.tempo}: `]))
       .append(
         $('<input>')
           .addClass(['form-range', 'muski-tempo-range'])
@@ -159,13 +157,13 @@ export default class MuskiBass {
       )
       .append($('<span></span>')
         .addClass(['muski-tempo-display', 'ms-2'])
-        .append([this.$tempoDisplay, ' bpm']))
+        .append([this.$tempoDisplay, ` ${this.strings.ui.bpm}`]))
       .appendTo(this.$controlsPanel);
 
     this.$clearButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-clear'])
-      .text('Clear')
+      .text(this.strings.ui.clear)
       .on('click', () => { this.handleClearButton(); })
       .appendTo(this.$controlsPanel);
   }

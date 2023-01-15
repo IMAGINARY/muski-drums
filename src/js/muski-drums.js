@@ -3,6 +3,8 @@ import * as Tone from 'tone';
 import MuskiSequencer from './muski-sequencer';
 import { drumMap, reverseDrumMap } from './lib/midi-drums';
 import BarButton from './lib/bar-button';
+import StringsEn from './i18n/en';
+import StringsDe from './i18n/de';
 
 const sequenceLen = 16;
 const inputLen = 6;
@@ -11,6 +13,11 @@ const BPM_MIN = 80;
 const BPM_MAX = 160;
 const DEFAULT_TEMPERATURE = 1.2;
 
+const Strings = {
+  en: StringsEn,
+  de: StringsDe,
+};
+
 export default class MuskiDrums {
   constructor(ai = null, sampler, toneTransport, userOptions = {}) {
     const defaultOptions = {
@@ -18,6 +25,7 @@ export default class MuskiDrums {
     };
     this.options = Object.assign({}, defaultOptions, userOptions);
 
+    this.strings = Strings[this.options.lang] || Strings.en;
     this.ai = ai;
     this.sampler = sampler;
     this.toneTransport = toneTransport;
@@ -37,7 +45,7 @@ export default class MuskiDrums {
     this.sequencer = new MuskiSequencer({
       rows: this.options.drums.map(drum => drumMap[drum]),
       cols: sequenceLen,
-      rowLabels: this.options.drums.map(drum => MuskiDrums.DrumLabels[drum]),
+      rowLabels: this.options.drums.map(drum => this.strings.drums[drum]),
     });
 
     const steps = [];
@@ -75,7 +83,7 @@ export default class MuskiDrums {
         .appendTo(this.$element);
 
       this.generateButton = new BarButton({
-        buttonText: '<span class="icon icon-robot"></span> Generate <span class="icon icon-arrow"></span>',
+        buttonText: `<span class="icon icon-robot"></span> ${this.strings.ui.generate} <span class="icon icon-arrow"></span>`,
         animationTime: 500,
       });
       this.generateButton.$element.appendTo(this.$aiPanel);
@@ -93,7 +101,7 @@ export default class MuskiDrums {
     this.$playButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-lg', 'btn-play'])
-      .text('Play')
+      .text(this.strings.ui.play)
       .on('click', () => { this.handlePlayButton(); })
       .appendTo(this.$controlsPanel);
 
@@ -104,7 +112,7 @@ export default class MuskiDrums {
       .addClass('muski-tempo')
       .append($('<label></label>')
         .addClass(['muski-tempo-label', 'me-2', 'ms-3'])
-        .append(['Tempo: ']))
+        .append([`${this.strings.ui.tempo}: `]))
       .append(
         $('<input>')
           .addClass(['form-range', 'muski-tempo-range'])
@@ -118,13 +126,13 @@ export default class MuskiDrums {
       )
       .append($('<span></span>')
         .addClass(['muski-tempo-display', 'ms-2'])
-        .append([this.$tempoDisplay, ' bpm']))
+        .append([this.$tempoDisplay, ` ${this.strings.ui.bpm}`]))
       .appendTo(this.$controlsPanel);
 
     this.$clearButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-clear'])
-      .text('Clear')
+      .text(this.strings.ui.clear)
       .on('click', () => { this.handleClearButton(); })
       .appendTo(this.$controlsPanel);
   }
