@@ -2,6 +2,7 @@ const strings = {
   ui: {
     generate: 'Generate',
     random: 'Random',
+    markov: 'Markov',
     tempo: 'Tempo',
     bpm: 'bpm',
     play: 'Play',

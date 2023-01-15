@@ -63,11 +63,13 @@ const drumArgs = {
       const { ai, synth } = bassManager;
       const withAI = $(element).data('with-ai') !== false;
       const withRandom = $(element).data('with-random') !== false;
+      const withMarkov = $(element).data('with-markov') !== false;
       const tempo = $(element).data('tempo') || 100;
       const lang = $(element).data('lang') || 'en';
       const options = Object.fromEntries(
         Object.entries({
           withRandom,
+          withMarkov,
           tempo,
           lang,
         }).filter(([, v]) => v !== undefined)

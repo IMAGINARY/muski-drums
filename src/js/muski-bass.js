@@ -125,6 +125,23 @@ export default class MuskiBass {
         });
     }
 
+    if (this.options.withMarkov) {
+      this.$markovPanel = $('<div></div>')
+        .addClass('muski-bass-markov-panel')
+        .appendTo(this.$element);
+
+      this.markovButton = new BarButton({
+        buttonText: `<span class="icon icon-markov"></span> ${this.strings.ui.markov} <span class="icon icon-arrow"></span>`,
+        animationTime: 500,
+      });
+      this.markovButton.$element.appendTo(this.$markovPanel);
+      this.markovButton.events.on('start',
+        async () => {
+          await this.handleMarkovButton();
+          this.markovButton.done();
+        });
+    }
+
     this.$controlsPanel = $('<div></div>')
       .addClass('muski-drums-controls-panel')
       .appendTo(this.$element);
@@ -261,6 +278,55 @@ export default class MuskiBass {
           true
         );
       }
+    }
+  }
+
+  handleMarkovButton() {
+    this.sequencer.clear(inputLen);
+    // Get the input sequence
+    const inputSeq = this.sequencer.getSequence().slice(0, inputLen).map(note => (note.length ? note[0] : 0));
+    // The markov chain is an object where the keys are the notes and the values are
+    // arrays of the notes that may follow the key note.
+    const markovChain = {};
+    for (let i = 0; i < inputSeq.length; i += 1) {
+      const note = inputSeq[i];
+      if (markovChain[note] === undefined) {
+        markovChain[note] = [];
+      }
+      // If the note is not the last in the input sequence, add the next note to the array
+      // of notes that may follow the key note.
+      if (i !== inputSeq.length - 1) {
+        markovChain[note].push(inputSeq[i + 1]);
+      }
+      // If the note is not the first in the input sequence
+      if (i !== 0) {
+        // Add the previous note
+        markovChain[note].push(inputSeq[i - 1]);
+      }
+      // Connect each note to itself
+      markovChain[note].push(note);
+      // Connect notes to the first in the input sequence
+      if (i > 1) {
+        markovChain[note].push(inputSeq[0]);
+      }
+    }
+
+    // Generate a sequence by walking the chain. Start with the last note in the input sequence,
+    // and then randomly select a note from the array of notes that may follow the current note.
+    // Repeat until the sequence is the desired length.
+    let currentNote = inputSeq[inputSeq.length - 1];
+    for (let i = inputLen; i < sequenceLen; i += 1) {
+      const nextNote = markovChain[currentNote][
+        Math.floor(Math.random() * markovChain[currentNote].length)
+      ];
+      if (nextNote !== 0) {
+        this.sequencer.setCell(
+          String(nextNote),
+          i,
+          true
+        );
+      }
+      currentNote = nextNote;
     }
   }
 }
