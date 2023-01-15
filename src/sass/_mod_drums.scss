@@ -3,7 +3,7 @@
     .muski-sequencer-matrix {
       .muski-sequencer-cell {
         &.ai-input {
-          background-color: #efefef;
+          background-color: $c-gray-light;
         }
       }
     }
@@ -18,16 +18,16 @@
       width: 274px;
       position: relative;
       margin-left: 136px;
-      background-color: #a8ff66;
-      border-color: #a8ff66;
-      color: black;
+      background-color: $c-green;
+      border-color: $c-green;
+      color: $c-black;
       text-align: left;
       font-size: 0.85em;
       font-weight: bold;
     }
 
     .bar-button-bar .progress {
-      background-color: #60dcbd;
+      background-color: $c-cyan;
     }
 
     .icon {

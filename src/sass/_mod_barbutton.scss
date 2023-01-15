@@ -24,7 +24,7 @@
     position: relative;
     overflow: hidden;
     flex-grow: 1;
-    background-color: #efefef;
+    background-color: $c-gray-light;
 
     .progress {
       content: " ";
@@ -35,7 +35,7 @@
       bottom: 0;
       width: 0;
       height: 100%;
-      background-color: yellow;
+      background-color: $c-yellow;
     }
   }
 

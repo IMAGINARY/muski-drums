@@ -33,7 +33,7 @@
   bottom: 0;
   width: 0;
   height: 100%;
-  background-color: yellow;
+  background-color: #fffe81;
 }
 .bar-button.held .bar-button-bar .progress {
   animation-name: fill-progress;
@@ -51,14 +51,14 @@
   padding: 0;
   border-radius: 50%;
   margin: 5px;
-  background-color: #a8ff66;
+  background-color: #97ff94;
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
   font-size: 0;
 }
 .btn-control-round:hover {
-  background-color: #a8ff66 !important;
+  background-color: #97ff94 !important;
 }
 
 .btn-control-round-lg {
@@ -90,7 +90,7 @@
   text-transform: uppercase;
   font-size: 0.85em;
   font-weight: bold;
-  background-color: #a9ff67;
+  background-color: #fffe81;
   padding: 0.2em 0.6em;
 }
 .muski-tempo .muski-tempo-range {
@@ -131,17 +131,17 @@
   border: none;
 }
 .muski-sequencer-matrix .muski-sequencer-cell.active {
-  outline: 3px solid #ffff4b;
-  background-color: #efef9c !important;
+  outline: 3px solid #fffe81;
+  background-color: #fffe81 !important;
 }
 .muski-sequencer-matrix .muski-sequencer-cell.on {
   background: none;
-  background-color: #61dcbd !important;
+  background-color: #73e1db !important;
 }
 .muski-sequencer-matrix .muski-sequencer-cell.active.on {
   background: none;
-  outline: 3px solid #ffff4b;
-  background-color: #61dc7e !important;
+  outline: 3px solid #fffe81;
+  background-color: #8ffff9 !important;
 }
 .muski-sequencer-matrix .muski-sequencer-row-label {
   padding-right: 1em;
@@ -165,15 +165,15 @@
   width: 274px;
   position: relative;
   margin-left: 136px;
-  background-color: #a8ff66;
-  border-color: #a8ff66;
-  color: black;
+  background-color: #97ff94;
+  border-color: #97ff94;
+  color: #000000;
   text-align: left;
   font-size: 0.85em;
   font-weight: bold;
 }
 .muski-drums .bar-button .bar-button-bar .progress, .muski-bass .bar-button .bar-button-bar .progress {
-  background-color: #60dcbd;
+  background-color: #8ffff9;
 }
 .muski-drums .bar-button .icon, .muski-bass .bar-button .icon {
   width: 1.5em;
@@ -207,4 +207,4 @@
   width: 187px;
 }
 
-/*# sourceMappingURL=default.ccfe5c8f29294cb9ebec.css.map*/
+/*# sourceMappingURL=default.79da7e10e60145c97f38.css.map*/
