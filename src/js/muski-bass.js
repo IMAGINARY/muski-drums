@@ -49,7 +49,7 @@ export default class MuskiBass {
       }).on('stop', () => {
         this.handleToneTransportStop();
       });
-    this.bpm = BPM_DEFAULT;
+    this.bpm = this.options.tempo || BPM_DEFAULT;
 
     this.events = new EventEmitter();
 

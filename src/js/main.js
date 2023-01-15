@@ -27,6 +27,7 @@ const drumArgs = {
     $('[data-component=muski-drums]').each(async (i, element) => {
       const { ai, sampler } = drumsManager;
       const withAI = $(element).data('with-ai') !== false;
+      const tempo = $(element).data('tempo') || 100;
       const options = Object.fromEntries(
         Object.entries({
           drums: $(element).data('drums')
@@ -34,6 +35,7 @@ const drumArgs = {
               .map(drum => drumArgs[drum.trim()])
               .filter(v => v)
             : undefined,
+          tempo,
         }).filter(([, v]) => v !== undefined)
       );
       const drums = new MuskiDrums(
@@ -56,9 +58,11 @@ const drumArgs = {
       const { ai, synth } = bassManager;
       const withAI = $(element).data('with-ai') !== false;
       const withRandom = $(element).data('with-random') !== false;
+      const tempo = $(element).data('tempo') || 100;
       const options = Object.fromEntries(
         Object.entries({
           withRandom,
+          tempo
         }).filter(([, v]) => v !== undefined)
       );
       const bass = new MuskiBass(
