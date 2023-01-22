@@ -31,6 +31,7 @@ const drumArgs = {
       const withAI = $(element).data('with-ai') !== false;
       const tempo = $(element).data('tempo') || 100;
       const lang = $(element).data('lang') || 'en';
+      const preset = $(element).data('preset') || null;
       const options = Object.fromEntries(
         Object.entries({
           drums: $(element).data('drums')
@@ -40,6 +41,7 @@ const drumArgs = {
             : undefined,
           tempo,
           lang,
+          preset
         }).filter(([, v]) => v !== undefined)
       );
       const drums = new MuskiDrums(

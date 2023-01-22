@@ -53,7 +53,7 @@ export default class MuskiDrums {
       steps.push(step);
     }
 
-    this.toneSequece = new Tone.Sequence((time, step) => {
+    this.toneSequence = new Tone.Sequence((time, step) => {
       if (this.isPlaying()) {
         const sequence = this.sequencer.getSequence();
         const notes = sequence[step];
@@ -65,6 +65,16 @@ export default class MuskiDrums {
     }, steps, '16n').start(0);
 
     this.sequencer.events.on('cell-on', (row) => { this.handleSequencerCellOn(row); });
+
+    if (this.options.preset) {
+      const sequences = this.options.preset.split(';');
+      sequences.forEach((sequence) => {
+        const [drum, notes] = sequence.split(':');
+        notes.split(',').forEach((note) => {
+          this.sequencer.setCell(drumMap[drum], Number(note) - 1, true);
+        });
+      });
+    }
 
     if (this.ai !== null) {
       Object.values(this.sequencer.$cellButtons).forEach((row) => {
