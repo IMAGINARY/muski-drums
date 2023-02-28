@@ -298,10 +298,9 @@ export default class MuskiBass {
       if (i !== inputSeq.length - 1) {
         markovChain[note].push(inputSeq[i + 1]);
       }
-      // If the note is not the first in the input sequence
-      if (i !== 0) {
-        // Add the previous note
-        markovChain[note].push(inputSeq[i - 1]);
+      // If the note is the last in the input sequence, add the first note
+      if (i === inputSeq.length - 1) {
+        markovChain[note].push(inputSeq[0]);
       }
       // Connect each note to itself
       markovChain[note].push(note);
