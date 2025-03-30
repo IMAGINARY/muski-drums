@@ -28,12 +28,15 @@ const drumArgs = {
     await drumsManager.init();
     $('[data-component=muski-drums]').each(async (i, element) => {
       const { ai, sampler } = drumsManager;
-      const withAI = $(element).data('with-ai') !== false;
+      const withAI = !!$(element).data('with-ai');
+      const withRandom = !!$(element).data('with-random');
       const tempo = $(element).data('tempo') || 100;
       const lang = $(element).data('lang') || 'en';
       const preset = $(element).data('preset') || null;
       const options = Object.fromEntries(
         Object.entries({
+          withRandom,
+          randomProbability: $(element).data('random-probability') || undefined,
           drums: $(element).data('drums')
             ? $(element).data('drums').split(',')
               .map(drum => drumArgs[drum.trim()])
@@ -41,7 +44,7 @@ const drumArgs = {
             : undefined,
           tempo,
           lang,
-          preset
+          preset,
         }).filter(([, v]) => v !== undefined)
       );
       const drums = new MuskiDrums(

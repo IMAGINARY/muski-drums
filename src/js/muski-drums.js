@@ -12,6 +12,7 @@ const BPM_DEFAULT = 100;
 const BPM_MIN = 80;
 const BPM_MAX = 160;
 const DEFAULT_TEMPERATURE = 1.2;
+const DEFAULT_RANDOM_PROBABILITY = 0.15;
 
 const Strings = {
   en: StringsEn,
@@ -22,6 +23,8 @@ export default class MuskiDrums {
   constructor(ai = null, sampler, toneTransport, userOptions = {}) {
     const defaultOptions = {
       drums: ['kick', 'snare', 'hihatClosed', 'hihatOpen', 'tomLow', 'tomMid', 'tomHigh', 'crash', 'ride'],
+      withRandom: false,
+      randomProbability: DEFAULT_RANDOM_PROBABILITY,
     };
     this.options = Object.assign({}, defaultOptions, userOptions);
 
@@ -101,6 +104,23 @@ export default class MuskiDrums {
         async () => {
           await this.handleGenerateButton();
           this.generateButton.done();
+        });
+    }
+
+    if (this.options.withRandom) {
+      this.$randomPanel = $('<div></div>')
+        .addClass('muski-drums-random-panel')
+        .appendTo(this.$element);
+
+      this.randomButton = new BarButton({
+        buttonText: `<span class="icon icon-random"></span> ${this.strings.ui.random} <span class="icon icon-arrow"></span>`,
+        animationTime: 500,
+      });
+      this.randomButton.$element.appendTo(this.$randomPanel);
+      this.randomButton.events.on('start',
+        async () => {
+          await this.handleRandomButton();
+          this.randomButton.done();
         });
     }
 
@@ -209,6 +229,21 @@ export default class MuskiDrums {
     this.bpm = value;
     if (this.isPlaying()) {
       this.toneTransport.setBpm(value);
+    }
+  }
+
+  handleRandomButton() {
+    this.sequencer.clear(inputLen);
+    for (let i = inputLen; i < sequenceLen; i += 1) {
+      Object.values(drumMap).forEach((note) => {
+        if (Math.random() < this.options.randomProbability) {
+          this.sequencer.setCell(
+            String(note),
+            i,
+            true
+          );
+        }
+      });
     }
   }
 }
