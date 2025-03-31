@@ -5,6 +5,7 @@ import { drumMap, reverseDrumMap } from './lib/midi-drums';
 import BarButton from './lib/bar-button';
 import StringsEn from './i18n/en';
 import StringsDe from './i18n/de';
+import StringsFr from './i18n/fr';
 
 const sequenceLen = 16;
 const inputLen = 6;
@@ -17,6 +18,7 @@ const DEFAULT_RANDOM_PROBABILITY = 0.15;
 const Strings = {
   en: StringsEn,
   de: StringsDe,
+  fr: StringsFr,
 };
 
 export default class MuskiDrums {

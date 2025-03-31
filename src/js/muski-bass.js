@@ -4,6 +4,7 @@ import MuskiSequencer from './muski-sequencer';
 import BarButton from './lib/bar-button';
 import StringsEn from './i18n/en';
 import StringsDe from './i18n/de';
+import StringsFr from './i18n/fr';
 
 const sequenceLen = 16;
 const inputLen = 4;
@@ -14,6 +15,7 @@ const BPM_MAX = 160;
 const Strings = {
   en: StringsEn,
   de: StringsDe,
+  fr: StringsFr,
 };
 
 const BassNotes = {
