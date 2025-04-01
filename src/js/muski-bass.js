@@ -34,10 +34,10 @@ const BassNotes = {
 };
 
 export default class MuskiBass {
-  constructor(ai = null, synth, toneTransport, options = {}) {
+  constructor(ai, synth, toneTransport, options = {}) {
     const defaultOptions = {
     };
-    this.options = Object.assign({}, defaultOptions, options);
+    this.options = { ...defaultOptions, ...options };
     this.strings = Strings[this.options.lang] || Strings.en;
 
     this.ai = ai;
@@ -59,7 +59,7 @@ export default class MuskiBass {
     this.sequencer = new MuskiSequencer({
       rows: Object.values(BassNotes),
       cols: sequenceLen,
-      rowLabels: Object.keys(BassNotes).map(note => this.strings.notes[note]),
+      rowLabels: Object.keys(BassNotes).map((note) => this.strings.notes[note]),
       monophonic: true,
     });
 
@@ -103,11 +103,13 @@ export default class MuskiBass {
         animationTime: 500,
       });
       this.generateButton.$element.appendTo(this.$aiPanel);
-      this.generateButton.events.on('start',
+      this.generateButton.events.on(
+        'start',
         async () => {
           await this.handleGenerateButton();
           this.generateButton.done();
-        });
+        }
+      );
     }
 
     if (this.options.withRandom) {
@@ -120,11 +122,13 @@ export default class MuskiBass {
         animationTime: 500,
       });
       this.randomButton.$element.appendTo(this.$randomPanel);
-      this.randomButton.events.on('start',
+      this.randomButton.events.on(
+        'start',
         async () => {
           await this.handleRandomButton();
           this.randomButton.done();
-        });
+        }
+      );
     }
 
     if (this.options.withMarkov) {
@@ -137,11 +141,13 @@ export default class MuskiBass {
         animationTime: 500,
       });
       this.markovButton.$element.appendTo(this.$markovPanel);
-      this.markovButton.events.on('start',
+      this.markovButton.events.on(
+        'start',
         async () => {
           await this.handleMarkovButton();
           this.markovButton.done();
-        });
+        }
+      );
     }
 
     this.$controlsPanel = $('<div></div>')
@@ -217,18 +223,13 @@ export default class MuskiBass {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
     const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, 1, ['C']);
     this.sequencer.clear(inputLen);
-    let notesFiltered = 0;
-    let notesAdjusted = 0;
-    let notesShifted = 0;
     continuation.notes.forEach((note) => {
       let { pitch } = note;
       if (pitch > Math.max(...Object.values(BassNotes))) {
         pitch = Math.min(...Object.values(BassNotes)) + (pitch % 12);
-        notesAdjusted += 1;
       }
       if (!Object.values(BassNotes).includes(pitch)) {
         pitch -= 1;
-        notesShifted += 1;
       }
       if (Object.values(BassNotes).includes(pitch)) {
         this.sequencer.setCell(
@@ -236,8 +237,6 @@ export default class MuskiBass {
           note.quantizedStartStep + inputLen,
           true
         );
-      } else {
-        notesFiltered += 1;
       }
     });
   }
@@ -286,7 +285,9 @@ export default class MuskiBass {
   handleMarkovButton() {
     this.sequencer.clear(inputLen);
     // Get the input sequence
-    const inputSeq = this.sequencer.getSequence().slice(0, inputLen).map(note => (note.length ? note[0] : 0));
+    const inputSeq = this.sequencer.getSequence()
+      .slice(0, inputLen)
+      .map((note) => (note.length ? note[0] : 0));
     // The markov chain is an object where the keys are the notes and the values are
     // arrays of the notes that may follow the key note.
     const markovChain = {};

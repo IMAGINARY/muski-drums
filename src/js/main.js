@@ -39,8 +39,8 @@ const drumArgs = {
           randomProbability: $(element).data('random-probability') || undefined,
           drums: $(element).data('drums')
             ? $(element).data('drums').split(',')
-              .map(drum => drumArgs[drum.trim()])
-              .filter(v => v)
+              .map((drum) => drumArgs[drum.trim()])
+              .filter((v) => v)
             : undefined,
           tempo,
           lang,

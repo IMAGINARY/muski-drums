@@ -28,7 +28,7 @@ export default class MuskiSequencer {
       throw new Error('Options should contain a `rows` property.');
     }
 
-    this.options = Object.assign({}, defaultOptions, options);
+    this.options = { ...defaultOptions, ...options };
 
     this.events = new EventEmitter();
 
@@ -99,8 +99,9 @@ export default class MuskiSequencer {
    */
   clear(colFrom = 0, colTo = null) {
     const colFromActual = Math.max(0, colFrom);
-    const colToActual = colTo === null ? this.options.cols :
-      Math.max(0, Math.min(colTo, this.options.cols));
+    const colToActual = colTo === null
+      ? this.options.cols
+      : Math.max(0, Math.min(colTo, this.options.cols));
 
     // Turn all cells in the range off.
     for (let row = 0; row < this.options.rows.length; row += 1) {

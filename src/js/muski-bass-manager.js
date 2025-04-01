@@ -4,13 +4,10 @@ import MuskiToneTransportManager from './muski-tone-transport-manager';
 
 export default class MuskiBassManager {
   constructor(options) {
-    this.options = Object.assign(
-      {},
-      {
-        aiCheckpointUrl: null,
-      },
-      options
-    );
+    this.options = {
+      aiCheckpointUrl: null,
+      ...options,
+    };
     this.initialized = false;
   }
 

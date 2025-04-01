@@ -22,13 +22,13 @@ const Strings = {
 };
 
 export default class MuskiDrums {
-  constructor(ai = null, sampler, toneTransport, userOptions = {}) {
+  constructor(ai, sampler, toneTransport, userOptions = {}) {
     const defaultOptions = {
       drums: ['kick', 'snare', 'hihatClosed', 'hihatOpen', 'tomLow', 'tomMid', 'tomHigh', 'crash', 'ride'],
       withRandom: false,
       randomProbability: DEFAULT_RANDOM_PROBABILITY,
     };
-    this.options = Object.assign({}, defaultOptions, userOptions);
+    this.options = { ...defaultOptions, ...userOptions };
 
     this.strings = Strings[this.options.lang] || Strings.en;
     this.ai = ai;
@@ -48,9 +48,9 @@ export default class MuskiDrums {
       .addClass('muski-drums')
       .toggleClass('with-ai', ai !== null);
     this.sequencer = new MuskiSequencer({
-      rows: this.options.drums.map(drum => drumMap[drum]),
+      rows: this.options.drums.map((drum) => drumMap[drum]),
       cols: sequenceLen,
-      rowLabels: this.options.drums.map(drum => this.strings.drums[drum]),
+      rowLabels: this.options.drums.map((drum) => this.strings.drums[drum]),
     });
 
     const steps = [];
@@ -102,11 +102,13 @@ export default class MuskiDrums {
         animationTime: 500,
       });
       this.generateButton.$element.appendTo(this.$aiPanel);
-      this.generateButton.events.on('start',
+      this.generateButton.events.on(
+        'start',
         async () => {
           await this.handleGenerateButton();
           this.generateButton.done();
-        });
+        }
+      );
     }
 
     if (this.options.withRandom) {
@@ -119,11 +121,13 @@ export default class MuskiDrums {
         animationTime: 500,
       });
       this.randomButton.$element.appendTo(this.$randomPanel);
-      this.randomButton.events.on('start',
+      this.randomButton.events.on(
+        'start',
         async () => {
           await this.handleRandomButton();
           this.randomButton.done();
-        });
+        }
+      );
     }
 
     this.$controlsPanel = $('<div></div>')
@@ -196,7 +200,11 @@ export default class MuskiDrums {
 
   async handleGenerateButton() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
-    const continuation = await this.ai.continueSeq(sequence, sequenceLen - inputLen, DEFAULT_TEMPERATURE);
+    const continuation = await this.ai.continueSeq(
+      sequence,
+      sequenceLen - inputLen,
+      DEFAULT_TEMPERATURE
+    );
     this.sequencer.clear(inputLen);
     continuation.notes.forEach((note) => {
       const normalizedPitch = drumMap[reverseDrumMap[note.pitch]];

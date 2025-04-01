@@ -6,7 +6,7 @@ export default class BarButton {
       buttonText: '',
       holdTime: 1000,
     };
-    this.options = Object.assign({}, defaultOptions, options);
+    this.options = { ...defaultOptions, ...options };
 
     this.events = new EventEmitter();
     this.holdTimeout = null;

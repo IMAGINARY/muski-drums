@@ -7,7 +7,7 @@ export default class BarButton {
       animationTime: 500,
       processTimeout: 15000,
     };
-    this.options = Object.assign({}, defaultOptions, options);
+    this.options = { ...defaultOptions, ...options };
     this.animationTimeout = null;
     this.processTimeout = null;
     this.isProcessing = false;

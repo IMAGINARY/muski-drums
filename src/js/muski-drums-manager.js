@@ -5,14 +5,11 @@ import MuskiToneTransportManager from './muski-tone-transport-manager';
 
 export default class MuskiDrumsManager {
   constructor(options) {
-    this.options = Object.assign(
-      {},
-      {
-        aiCheckpointUrl: null,
-        soundFontUrl: null,
-      },
-      options
-    );
+    this.options = {
+      aiCheckpointUrl: null,
+      soundFontUrl: null,
+      ...options,
+    };
     this.initialized = false;
   }
 
@@ -42,7 +39,7 @@ export default class MuskiDrumsManager {
     }
     return new Promise((resolve) => {
       this.sampler = new Tone.Players({
-        urls: Object.fromEntries(Object.values(drumMap).map(pitch => [String(pitch), `${pitch}.mp3`])),
+        urls: Object.fromEntries(Object.values(drumMap).map((pitch) => [String(pitch), `${pitch}.mp3`])),
         baseUrl: this.options.soundFontUrl,
         onload: () => {
           resolve(this.sampler);

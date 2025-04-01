@@ -21,7 +21,7 @@ const DEFAULT_VELOCITY = 100;
 export default function buildNoteSequence(sequence, stepsPerQuarter, tempo = 120) {
   // The duration of the sequence, in seconds.
   const duration = (sequence.length / stepsPerQuarter) / (tempo / 60);
-  const stepStart = step => (step / stepsPerQuarter) / (tempo / 60);
+  const stepStart = (step) => (step / stepsPerQuarter) / (tempo / 60);
 
   return {
     ticksPerQuarter: MIDI_TICKS_PER_QUARTER,
@@ -32,7 +32,7 @@ export default function buildNoteSequence(sequence, stepsPerQuarter, tempo = 120
     // Tempo in quarters per minute
     tempos: [{ time: 0, qpm: tempo }],
     notes: [
-      ...sequence.map((notes, i) => notes.map(note => ({
+      ...sequence.map((notes, i) => notes.map((note) => ({
         pitch: note,
         velocity: DEFAULT_VELOCITY,
         startTime: stepStart(i),
