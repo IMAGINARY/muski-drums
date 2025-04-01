@@ -1,10 +1,5 @@
-@import "mod_colors";
-
-.muski-drums, .muski-bass {
-  @import "mod_barbutton";
-  @import "mod_controls";
-  @import "mod_sequencer";
-}
-
-@import "mod_drums";
+@use "mod_barbutton";
+@use "mod_controls";
+@use "mod_sequencer";
+@use "mod_drums";
 

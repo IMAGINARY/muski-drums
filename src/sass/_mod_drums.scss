@@ -1,9 +1,11 @@
+@use 'colors';
+
 .muski-drums, .muski-bass {
   &.with-ai {
     .muski-sequencer-matrix {
       .muski-sequencer-cell {
         &.ai-input {
-          background-color: $c-gray-light;
+          background-color: colors.$c-gray-light;
         }
       }
     }
@@ -18,16 +20,16 @@
       width: 274px;
       position: relative;
       margin-left: 136px;
-      background-color: $c-green;
-      border-color: $c-green;
-      color: $c-black;
+      background-color: colors.$c-green;
+      border-color: colors.$c-green;
+      color: colors.$c-black;
       text-align: left;
       font-size: 0.85em;
       font-weight: bold;
     }
 
     .bar-button-bar .progress {
-      background-color: $c-cyan;
+      background-color: colors.$c-cyan;
     }
 
     .icon {

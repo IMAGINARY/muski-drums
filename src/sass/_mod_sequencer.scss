@@ -1,51 +1,55 @@
+@use 'colors';
+
 $cell-width: 40px;
 $cell-height: 40px;
 
-.muski-sequencer-matrix {
-  th {
-    font-size: 0.85rem;
-    font-weight: normal;
-  }
-
-  td {
-    width: $cell-width;
-    height: $cell-height;
-    border: 2px solid white;
-    background-color: transparent;
-  }
-
-  .muski-sequencer-cell {
-    display: block;
-    width: $cell-width;
-    height: $cell-height;
-    background-color: $c-gray;
-    border: none;
-
-    &.active {
-      outline: 3px solid $c-yellow;
-      background-color: $c-yellow !important;
+.muski-drums, .muski-bass {
+  .muski-sequencer-matrix {
+    th {
+      font-size: 0.85rem;
+      font-weight: normal;
     }
 
-    &.on {
-      background: none;
-      background-color: $c-cyan-dark !important;
+    td {
+      width: $cell-width;
+      height: $cell-height;
+      border: 2px solid white;
+      background-color: transparent;
     }
 
-    &.active.on {
-      background: none;
-      outline: 3px solid $c-yellow;
-      background-color: $c-cyan !important;
+    .muski-sequencer-cell {
+      display: block;
+      width: $cell-width;
+      height: $cell-height;
+      background-color: colors.$c-gray;
+      border: none;
+
+      &.active {
+        outline: 3px solid colors.$c-yellow;
+        background-color: colors.$c-yellow !important;
+      }
+
+      &.on {
+        background: none;
+        background-color: colors.$c-cyan-dark !important;
+      }
+
+      &.active.on {
+        background: none;
+        outline: 3px solid colors.$c-yellow;
+        background-color: colors.$c-cyan !important;
+      }
     }
-  }
 
-  .muski-sequencer-row-label {
-    padding-right: 1em;
-    text-align: right;
-    width: 10em;
-    overflow: hidden;
-  }
+    .muski-sequencer-row-label {
+      padding-right: 1em;
+      text-align: right;
+      width: 10em;
+      overflow: hidden;
+    }
 
-  .muski-sequencer-col-label {
-    text-align: center;
+    .muski-sequencer-col-label {
+      text-align: center;
+    }
   }
 }

@@ -1,55 +1,60 @@
+@use 'colors';
+
 @keyframes fill-progress {
   0% {
     width: 0;
   }
+
   100% {
     width: 100%;
   }
 }
 
-.bar-button {
-  display: flex;
-  position: relative;
-  overflow: hidden;
-  background-color: white;
-  color: #000;
-
-  .bar-button-button {
-    margin-right: -15px;
-    z-index: 10;
-    border-radius: 15px;
-  }
-
-  .bar-button-bar {
+.muski-drums, .muski-bass {
+  .bar-button {
+    display: flex;
     position: relative;
     overflow: hidden;
-    flex-grow: 1;
-    background-color: $c-gray-light;
+    background-color: white;
+    color: #000;
 
-    .progress {
-      content: " ";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 100%;
-      background-color: $c-yellow;
+    .bar-button-button {
+      margin-right: -15px;
+      z-index: 10;
+      border-radius: 15px;
     }
-  }
 
-  &.held {
-    .bar-button-bar .progress {
-      animation-name: fill-progress;
-      animation-play-state: running;
+    .bar-button-bar {
+      position: relative;
+      overflow: hidden;
+      flex-grow: 1;
+      background-color: colors.$c-gray-light;
+
+      .progress {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 100%;
+        background-color: colors.$c-yellow;
+      }
     }
-  }
 
-  &.in-progress {
-    .bar-button-bar .progress {
-      animation-name: fill-progress;
-      animation-play-state: running;
+    &.held {
+      .bar-button-bar .progress {
+        animation-name: fill-progress;
+        animation-play-state: running;
+      }
+    }
+
+    &.in-progress {
+      .bar-button-bar .progress {
+        animation-name: fill-progress;
+        animation-play-state: running;
+      }
     }
   }
 }
