@@ -49,6 +49,7 @@ All attributes should be prefixed with `data-`.
 - `with-ai` - Whether to add a button to generate a drum pattern using AI. Defaults to `false`.
 - `with-random` - Whether to add a button to generate a random drum pattern. Defaults to `false`.
 - `random-probability`: The probability of a note being used in a random pattern. Defaults to `0.15`.
+- `editable-output` - Whether to allow editing the generated pattern. Defaults to `true`.
 - `tempo` - The default tempo for the drum machine. Defaults to `100`.
 - `lang` - The language to use for the UI. Defaults to `en`.
 - `preset` - The initial pattern to show. See below for the format.

@@ -15,6 +15,8 @@ export default class MuskiSequencer {
    *  (optional, default: true) Whether to label the columns.
    * @param {string} options.monophonic
    *  (optional, default: false) Whether more than one row can be active in a column.
+   * @param {[number]} options.isLockedCol
+   *  (optional) Columns that should be locked (not editable by the user) as 0-based indices.
    */
   constructor(options) {
     const defaultOptions = {
@@ -33,6 +35,13 @@ export default class MuskiSequencer {
     this.events = new EventEmitter();
 
     this.activeColumn = null;
+
+    this.isLockedCol = [];
+    this.options.lockedColumns.forEach((col) => {
+      if (col >= 0 && col < this.options.cols) {
+        this.isLockedCol[col] = true;
+      }
+    });
 
     this.$element = $('<div></div>')
       .addClass('muski-sequencer');
@@ -218,14 +227,29 @@ export default class MuskiSequencer {
     this.activeColumn = col;
   }
 
-  handleCellClick(row, col) {
-    if (this.getCell(row, col)) {
-      this.setCell(row, col, false);
-      this.events.emit('cell-off', row, col);
-    } else {
-      this.setCell(row, col, true);
-      this.events.emit('cell-on', row, col);
+  /**
+   * Lock or unlock a range of columns.
+   *
+   * @param {number} from
+   *  The first column to lock or unlock (0-based index).
+   * @param {number} to
+   *  The last column to lock or unlock (0-based index).
+   * @param {boolean} lock
+   *  Whether to lock or unlock the columns.
+   */
+  lockColumns(from, to, lock = true) {
+    for (let col = from; col <= to; col += 1) {
+      this.isLockedCol[col] = lock;
     }
+  }
+
+  handleCellClick(row, col) {
+    if (this.isLockedCol[col]) {
+      return;
+    }
+    const isOn = this.getCell(row, col);
+    this.setCell(row, col, !isOn);
+    this.events.emit(isOn ? 'cell-off' : 'cell-on', row, col);
     this.events.emit('update');
   }
 }

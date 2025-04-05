@@ -26,6 +26,7 @@ export default class MuskiDrums {
     const defaultOptions = {
       drums: ['kick', 'snare', 'hihatClosed', 'hihatOpen', 'tomLow', 'tomMid', 'tomHigh', 'crash', 'ride'],
       withRandom: false,
+      editableOutput: true,
       randomProbability: DEFAULT_RANDOM_PROBABILITY,
     };
     this.options = { ...defaultOptions, ...userOptions };
@@ -44,6 +45,11 @@ export default class MuskiDrums {
 
     this.events = new EventEmitter();
 
+    const outputColumns = [];
+    for (let i = inputLen; i < sequenceLen; i += 1) {
+      outputColumns.push(i);
+    }
+
     this.$element = $('<div></div>')
       .addClass('muski-drums')
       .toggleClass('with-ai', ai !== null);
@@ -51,6 +57,7 @@ export default class MuskiDrums {
       rows: this.options.drums.map((drum) => drumMap[drum]),
       cols: sequenceLen,
       rowLabels: this.options.drums.map((drum) => this.strings.drums[drum]),
+      lockedColumns: this.options.editableOutput ? [] : outputColumns,
     });
 
     const steps = [];
