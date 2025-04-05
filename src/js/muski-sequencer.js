@@ -55,9 +55,9 @@ export default class MuskiSequencer {
           .addClass('muski-sequencer-cell')
           .attr('data-row', options.rows[row])
           .attr('data-col', col)
-          .on('click', () => {
-            this.handleCellClick(options.rows[row], col);
-          });
+          .on('pointerdown', () => {
+            this.handleCellDown(options.rows[row], col);
+          })
         rowButtons.push($cellButton);
       }
       this.$cellButtons[String(options.rows[row])] = rowButtons;
@@ -243,7 +243,7 @@ export default class MuskiSequencer {
     }
   }
 
-  handleCellClick(row, col) {
+  handleCellDown(row, col) {
     if (this.isLockedCol[col]) {
       return;
     }
