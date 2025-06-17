@@ -232,11 +232,13 @@ export default class MuskiDrums {
 
   handleToneTransportStart() {
     this.$playButton.removeClass('btn-play').addClass('btn-stop').text('Stop');
+    this.events.emit('start');
   }
 
   handleToneTransportStop() {
     this.$playButton.removeClass('btn-stop').addClass('btn-play').text('Play');
     this.sequencer.setActiveColumn(null);
+    this.events.emit('stop');
   }
 
   async handleGenerateButton() {
