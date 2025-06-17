@@ -66,6 +66,7 @@ export default class MuskiDrums {
     }
 
     this.toneSequence = new Tone.Sequence((time, step) => {
+      this.events.emit('step', step);
       if (this.isPlaying()) {
         const sequence = this.sequencer.getSequence();
         const notes = sequence[step];
@@ -192,20 +193,7 @@ export default class MuskiDrums {
     }
   }
 
-  isPlaying() {
-    return this.toneTransport && this.toneTransport.isRunning();
-  }
-
-  handleToneTransportStart() {
-    this.$playButton.removeClass('btn-play').addClass('btn-stop').text('Stop');
-  }
-
-  handleToneTransportStop() {
-    this.$playButton.removeClass('btn-stop').addClass('btn-play').text('Play');
-    this.sequencer.setActiveColumn(null);
-  }
-
-  async handleGenerateButton() {
+  async generateUsingAI() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
     const continuation = await this.ai.continueSeq(
       sequence,
@@ -221,6 +209,38 @@ export default class MuskiDrums {
         true
       );
     });
+  }
+
+  generateUsingRandomAlgorithm() {
+    this.sequencer.clear(inputLen);
+    for (let i = inputLen; i < sequenceLen; i += 1) {
+      Object.values(drumMap).forEach((note) => {
+        if (Math.random() < this.options.randomProbability) {
+          this.sequencer.setCell(
+            String(note),
+            i,
+            true
+          );
+        }
+      });
+    }
+  }
+
+  isPlaying() {
+    return this.toneTransport && this.toneTransport.isRunning();
+  }
+
+  handleToneTransportStart() {
+    this.$playButton.removeClass('btn-play').addClass('btn-stop').text('Stop');
+  }
+
+  handleToneTransportStop() {
+    this.$playButton.removeClass('btn-stop').addClass('btn-play').text('Play');
+    this.sequencer.setActiveColumn(null);
+  }
+
+  async handleGenerateButton() {
+    await this.generateUsingAI();
   }
 
   handleClearButton() {
@@ -250,18 +270,7 @@ export default class MuskiDrums {
   }
 
   handleRandomButton() {
-    this.sequencer.clear(inputLen);
-    for (let i = inputLen; i < sequenceLen; i += 1) {
-      Object.values(drumMap).forEach((note) => {
-        if (Math.random() < this.options.randomProbability) {
-          this.sequencer.setCell(
-            String(note),
-            i,
-            true
-          );
-        }
-      });
-    }
+    this.generateUsingRandomAlgorithm();
   }
 }
 
