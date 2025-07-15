@@ -21,6 +21,23 @@ const Strings = {
   fr: StringsFr,
 };
 
+/**
+ * MuskiDrums class provides a drum machine with a sequencer and AI capabilities.
+ *
+ * @class MuskiDrums
+ * @param {Object} ai - AI instance for generating drum patterns.
+ * @param {Tone.Players} sampler - Tone.js sampler for playing drum sounds.
+ * @param {Object} toneTransport - Tone.js transport manager for controlling playback.
+ * @param {Object} [userOptions] - User-defined options for the drum machine.
+ * @param {Array} [userOptions.drums] - List of drums to include in the sequencer.
+ * @param {boolean} [userOptions.withRandom=false] - Whether to include a random generation feature.
+ * @param {boolean} [userOptions.editableOutput=true] - Whether the output is editable by the user.
+ * @param {number} [userOptions.randomProbability=0.15] - Density of notes in the random generation.
+ * @param {string} [userOptions.lang='en'] - Language for UI strings.
+ * @param {number} [userOptions.tempo=100] - Initial tempo in BPM.
+ * @param {string} [userOptions.preset] - Preset drum pattern to load.
+ * @param {boolean} [userOptions.editableOutput=true] - Whether the output is editable by the user.
+ */
 export default class MuskiDrums {
   constructor(ai, sampler, toneTransport, userOptions = {}) {
     const defaultOptions = {
