@@ -210,6 +210,17 @@ export default class MuskiDrums {
     }
   }
 
+  setDrumVolume(drum, volume) {
+    if (drumMap[drum] === undefined) {
+      throw new Error(`Unknown drum: ${drum}`);
+    }
+    const player = this.sampler.player(String(drumMap[drum]));
+    if (!player) {
+      throw new Error(`Player for drum ${drum} not found in sampler.`);
+    }
+    this.sampler.player(String(drumMap[drum])).volume.value = volume;
+  }
+
   async generateUsingAI() {
     const sequence = this.sequencer.getSequence().slice(0, inputLen);
     const continuation = await this.ai.continueSeq(

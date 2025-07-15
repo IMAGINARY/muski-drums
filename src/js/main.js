@@ -56,6 +56,7 @@ const drumArgs = {
         options
       );
       $(element).replaceWith(drums.$element);
+      drums.$element.data('muski-drums', drums);
     });
   }
 
@@ -88,6 +89,7 @@ const drumArgs = {
         options
       );
       $(element).replaceWith(bass.$element);
+      bass.$element.data('muski-bass', bass);
     });
   }
 })();
