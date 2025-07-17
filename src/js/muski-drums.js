@@ -3,6 +3,8 @@ import * as Tone from 'tone';
 import MuskiSequencer from './muski-sequencer';
 import { drumMap, reverseDrumMap } from './lib/midi-drums';
 import BarButton from './lib/bar-button';
+import arrayOfArrays from './lib/array-of-arrays';
+import sequencerPatternTransition from './lib/sequencer-pattern-transition';
 import StringsEn from './i18n/en';
 import StringsDe from './i18n/de';
 import StringsFr from './i18n/fr';
@@ -37,6 +39,8 @@ const Strings = {
  * @param {number} [userOptions.tempo=100] - Initial tempo in BPM.
  * @param {string} [userOptions.preset] - Preset drum pattern to load.
  * @param {boolean} [userOptions.editableOutput=true] - Whether the output is editable by the user.
+ * @param {Number} [userOptions.patternTransitionDuration=600]
+ *   Duration of pattern transitions in ms. (default: 600)
  */
 export default class MuskiDrums {
   constructor(ai, sampler, toneTransport, userOptions = {}) {
@@ -45,10 +49,14 @@ export default class MuskiDrums {
       withRandom: false,
       editableOutput: true,
       randomProbability: DEFAULT_RANDOM_PROBABILITY,
+      lang: 'en',
+      tempo: BPM_DEFAULT,
+      preset: null,
+      patternTransitionDuration: 600,
     };
     this.options = { ...defaultOptions, ...userOptions };
 
-    this.strings = Strings[this.options.lang] || Strings.en;
+    this.strings = Strings[this.options.lang];
     this.ai = ai;
     this.sampler = sampler;
     this.toneTransport = toneTransport;
@@ -58,7 +66,7 @@ export default class MuskiDrums {
       }).on('stop', () => {
         this.handleToneTransportStop();
       });
-    this.bpm = this.options.tempo || BPM_DEFAULT;
+    this.bpm = this.options.tempo;
 
     this.events = new EventEmitter();
 
@@ -228,30 +236,54 @@ export default class MuskiDrums {
       sequenceLen - inputLen,
       DEFAULT_TEMPERATURE
     );
-    this.sequencer.clear(inputLen);
+    const newSequence = arrayOfArrays(sequenceLen, 0);
     continuation.notes.forEach((note) => {
       const normalizedPitch = drumMap[reverseDrumMap[note.pitch]];
-      this.sequencer.setCell(
-        String(normalizedPitch),
-        note.quantizedStartStep + inputLen,
-        true
-      );
+      newSequence[note.quantizedStartStep + inputLen].push(normalizedPitch);
     });
+
+    this.transitionSequencerToSequence(newSequence);
   }
 
   generateUsingRandomAlgorithm() {
-    this.sequencer.clear(inputLen);
+    // this.sequencer.clear(inputLen);
+    const newSequence = arrayOfArrays(sequenceLen, 0);
     for (let i = inputLen; i < sequenceLen; i += 1) {
       Object.values(drumMap).forEach((note) => {
         if (Math.random() < this.options.randomProbability) {
-          this.sequencer.setCell(
-            String(note),
-            i,
-            true
-          );
+          newSequence[i].push(note);
         }
       });
     }
+
+    this.transitionSequencerToSequence(newSequence);
+  }
+
+  transitionSequencerToSequence(sequence) {
+    sequencerPatternTransition(
+      this.sequencer,
+      sequence,
+      this.options.patternTransitionDuration,
+      {
+        startCol: inputLen,
+        endCol: sequenceLen - 1,
+        onStart: () => {
+          this.sequencer.clear(inputLen);
+        },
+        onEnd: () => {
+        },
+        onCell: (row, col, state) => {
+          this.sequencer.pulseCell(row, col);
+          if (state) {
+            this.sequencer.setCell(
+              String(row),
+              col,
+              true
+            );
+          }
+        },
+      }
+    );
   }
 
   isPlaying() {

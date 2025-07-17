@@ -1,16 +1,6 @@
 @use 'colors';
 
 .muski-drums, .muski-bass {
-  &.with-ai {
-    .muski-sequencer-matrix {
-      .muski-sequencer-cell {
-        &.ai-input {
-          background-color: colors.$c-gray-light;
-        }
-      }
-    }
-  }
-
   .bar-button {
     width: 840px;
     margin-top: 4px;

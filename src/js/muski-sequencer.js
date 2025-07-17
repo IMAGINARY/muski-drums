@@ -183,6 +183,23 @@ export default class MuskiSequencer {
   }
 
   /**
+   * Pulse a cell visually.
+   *
+   * Adds a temporary 'pulsing' class to the cell.
+   *
+   * @param {Number} row
+   * @param {Number} col
+   */
+  pulseCell(row, col) {
+    this.validateRowCol(row, col);
+    const $cell = this.$cellButtons[String(row)][col];
+    $cell.addClass('pulsing');
+    setTimeout(() => {
+      $cell.removeClass('pulsing');
+    }, 500); // Remove the pulsing class after 500ms
+  }
+
+  /**
    * Get the sequence.
    *
    * The sequence is returned as an array of arrays, where each sub-array

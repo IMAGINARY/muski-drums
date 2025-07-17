@@ -24,17 +24,38 @@ $cell-height: 40px;
       background-color: colors.$c-gray;
       border: none;
 
+      @keyframes pulsing {
+        0% {
+          background-color: colors.$c-gray;
+        }
+
+        33% {
+          background-color: colors.$c-cyan-light;
+        }
+
+        100% {
+          background-color: colors.$c-gray;
+        }
+      }
+
+      &.pulsing {
+        animation: pulsing ease-in-out 0.2s 0s 1;
+      }
+
       &.active {
+        animation: none;
         outline: 3px solid colors.$c-yellow;
         background-color: colors.$c-yellow !important;
       }
 
       &.on {
+        animation: none;
         background: none;
         background-color: colors.$c-cyan-dark !important;
       }
 
       &.active.on {
+        animation: none;
         background: none;
         outline: 3px solid colors.$c-yellow;
         background-color: colors.$c-cyan !important;
@@ -50,6 +71,34 @@ $cell-height: 40px;
 
     .muski-sequencer-col-label {
       text-align: center;
+    }
+  }
+
+  &.with-ai {
+    .muski-sequencer-matrix {
+      .muski-sequencer-cell {
+        &.ai-input {
+          background-color: colors.$c-gray-light;
+
+          @keyframes pulsing-ai {
+            0% {
+              background-color: colors.$c-gray-light;
+            }
+
+            33% {
+              background-color: colors.$c-cyan-light;
+            }
+
+            100% {
+              background-color: colors.$c-gray-light;
+            }
+          }
+
+          &.pulsing {
+            animation: pulsing-ai ease-in-out 0.5s 0s 1;
+          }
+        }
+      }
     }
   }
 }
