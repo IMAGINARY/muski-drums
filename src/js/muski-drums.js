@@ -17,7 +17,7 @@ const BPM_MAX = 160;
 const DEFAULT_TEMPERATURE = 1.2;
 const DEFAULT_RANDOM_PROBABILITY = 0.15;
 
-const Strings = {
+const DefaultStrings = {
   en: StringsEn,
   de: StringsDe,
   fr: StringsFr,
@@ -36,6 +36,7 @@ const Strings = {
  * @param {boolean} [userOptions.editableOutput=true] - Whether the output is editable by the user.
  * @param {number} [userOptions.randomProbability=0.15] - Density of notes in the random generation.
  * @param {string} [userOptions.lang='en'] - Language for UI strings.
+ * @param {Object} [userOptions.strings] - Custom strings for UI localization.
  * @param {number} [userOptions.tempo=100] - Initial tempo in BPM.
  * @param {string} [userOptions.preset] - Preset drum pattern to load.
  * @param {boolean} [userOptions.editableOutput=true] - Whether the output is editable by the user.
@@ -53,10 +54,14 @@ export default class MuskiDrums {
       tempo: BPM_DEFAULT,
       preset: null,
       patternTransitionDuration: 600,
+      strings: DefaultStrings,
     };
     this.options = { ...defaultOptions, ...userOptions };
 
-    this.strings = Strings[this.options.lang];
+    this.strings = {
+      ...DefaultStrings[this.options.lang],
+      ...this.options.strings[this.options.lang],
+    };
     this.ai = ai;
     this.sampler = sampler;
     this.toneTransport = toneTransport;
