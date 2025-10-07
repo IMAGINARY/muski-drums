@@ -26,6 +26,7 @@ const drumArgs = {
       soundFontUrl: soundfontUrl || 'sounds/dmx/',
     });
     await drumsManager.init();
+    await drumsManager.warmUpAI();
     $('[data-component=muski-drums]').each(async (i, element) => {
       const { ai, sampler } = drumsManager;
       const withAI = $(element).data('with-ai') === true;

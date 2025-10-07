@@ -33,6 +33,14 @@ export default class MuskiDrumsManager {
     return this.ai;
   }
 
+  async warmUpAI() {
+    if (!this.ai) {
+      throw new Error('MuskiDrumsManager: AI is not initialized.');
+    }
+    // Warm up the AI by making a dummy call
+    await this.ai.continueSeq([[], [], [], [], [], []], 9, 1.2);
+  }
+
   async initSampler() {
     if (!this.options.soundFontUrl) {
       throw new Error('MuskiDrumsManager: soundFontUrl is not set.');
