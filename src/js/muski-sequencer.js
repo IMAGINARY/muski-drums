@@ -15,8 +15,9 @@ export default class MuskiSequencer {
    *  (optional, default: true) Whether to label the columns.
    * @param {string} options.monophonic
    *  (optional, default: false) Whether more than one row can be active in a column.
-   * @param {[number]} options.isLockedCol
-   *  (optional) Columns that should be locked (not editable by the user) as 0-based indices.
+   * @param {[number]} options.lockedColumns
+   *  (optional, default: []) Columns that should be locked (not editable by the user),
+   *  as 0-based indices.
    */
   constructor(options) {
     const defaultOptions = {
@@ -24,6 +25,7 @@ export default class MuskiSequencer {
       labelColumns: true,
       rowLabels: null,
       monophonic: false,
+      lockedColumns: [],
     };
 
     if (!options.rows || !Array.isArray(options.rows)) {
@@ -57,7 +59,7 @@ export default class MuskiSequencer {
           .attr('data-col', col)
           .on('pointerdown', () => {
             this.handleCellDown(options.rows[row], col);
-          })
+          });
         rowButtons.push($cellButton);
       }
       this.$cellButtons[String(options.rows[row])] = rowButtons;

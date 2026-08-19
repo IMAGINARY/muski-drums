@@ -105,10 +105,6 @@ it replaces the placeholder.
 
 ## Gotchas
 
-- **`MuskiBass` currently throws on construction.** `src/js/muski-sequencer.js:40` reads
-  `this.options.lockedColumns`, which is absent from its `defaultOptions` and is not passed by
-  `src/js/muski-bass.js:59` (`src/js/muski-drums.js:90` does pass it). The bug is in the committed
-  `dist/` bundle too.
 - `data-ai-checkpoint` and `data-soundfont` are **not per-instance**. `main.js` reads them off the first
   matching element on the page (`src/js/main.js:21-22` and `:65`) and builds one manager, one model, and
   one sampler shared by every widget.
