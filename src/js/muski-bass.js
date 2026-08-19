@@ -36,6 +36,7 @@ const BassNotes = {
 export default class MuskiBass {
   constructor(ai, synth, toneTransport, options = {}) {
     const defaultOptions = {
+      editableOutput: true,
     };
     this.options = { ...defaultOptions, ...options };
     this.strings = Strings[this.options.lang] || Strings.en;
@@ -53,6 +54,11 @@ export default class MuskiBass {
 
     this.events = new EventEmitter();
 
+    const outputColumns = [];
+    for (let i = inputLen; i < sequenceLen; i += 1) {
+      outputColumns.push(i);
+    }
+
     this.$element = $('<div></div>')
       .addClass('muski-bass')
       .toggleClass('with-ai', ai !== null);
@@ -61,6 +67,7 @@ export default class MuskiBass {
       cols: sequenceLen,
       rowLabels: Object.keys(BassNotes).map((note) => this.strings.notes[note]),
       monophonic: true,
+      lockedColumns: this.options.editableOutput ? [] : outputColumns,
     });
 
     const steps = [];

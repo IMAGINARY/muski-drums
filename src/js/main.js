@@ -75,12 +75,14 @@ const drumArgs = {
       const withMarkov = $(element).data('with-markov') !== false;
       const tempo = $(element).data('tempo') || 100;
       const lang = $(element).data('lang') || 'en';
+      const editableOutput = $(element).data('editable-output') !== false;
       const options = Object.fromEntries(
         Object.entries({
           withRandom,
           withMarkov,
           tempo,
           lang,
+          editableOutput,
         }).filter(([, v]) => v !== undefined)
       );
       const bass = new MuskiBass(

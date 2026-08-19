@@ -86,6 +86,7 @@ This will be corrected in a future version (or not).
 - `with-random` - Whether to add a button to generate a random sequence. Defaults to `false`.
 - `with-markov` - Whether to add a button to generate a sequence using a Markov chain algorithm. 
     Defaults to `false`.
+- `editable-output` - Whether to allow editing the generated pattern. Defaults to `true`.
 - `tempo` - The default tempo for the sequencer. Defaults to `100`.
 - `lang` - The language to use for the UI. Defaults to `en`.
 
