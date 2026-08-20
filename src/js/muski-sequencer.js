@@ -83,6 +83,7 @@ export default class MuskiSequencer {
       this.$table.append($colLabelsRow);
     }
 
+    this.$rowLabelCells = [];
     for (let row = 0; row < this.options.rows.length; row += 1) {
       const $row = $('<tr></tr>')
         .addClass('muski-sequencer-row');
@@ -90,6 +91,7 @@ export default class MuskiSequencer {
         const $rowLabelCell = $('<th></th>')
           .addClass('muski-sequencer-row-label')
           .text(options.rowLabels[row] || '');
+        this.$rowLabelCells.push($rowLabelCell);
         $row.append($rowLabelCell);
       }
       for (let col = 0; col < this.options.cols; col += 1) {
@@ -219,6 +221,22 @@ export default class MuskiSequencer {
       sequence.push(onCells);
     }
     return sequence;
+  }
+
+  /**
+   * Replace the row labels.
+   *
+   * Does nothing if the sequencer was constructed without row labels. If fewer labels
+   * are given than there are label cells, the remaining cells are emptied; if more are
+   * given, the extra labels are ignored.
+   *
+   * @param {array} rowLabels
+   *  The new labels for the rows.
+   */
+  setRowLabels(rowLabels) {
+    this.$rowLabelCells.forEach(($rowLabelCell, row) => {
+      $rowLabelCell.text(rowLabels[row] || '');
+    });
   }
 
   /**
