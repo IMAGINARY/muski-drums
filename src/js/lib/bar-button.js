@@ -21,7 +21,7 @@ export default class BarButton {
     this.$button = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-secondary', 'bar-button-button'])
-      .html(this.options.buttonText)
+      .append(this.options.buttonText)
       .on('click', (ev) => {
         ev.preventDefault();
         this.handleStart();

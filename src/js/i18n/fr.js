@@ -6,6 +6,7 @@ const strings = {
     tempo: 'Tempo',
     bpm: 'bpm',
     play: 'Lecture',
+    stop: 'Arrêt',
     clear: 'Effacer',
   },
   drums: {

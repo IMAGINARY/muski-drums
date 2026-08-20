@@ -62,6 +62,8 @@ export default class MuskiDrums {
       ...DefaultStrings[this.options.lang],
       ...this.options.strings[this.options.lang],
     };
+    this.$uiStrings = {};
+
     this.ai = ai;
     this.sampler = sampler;
     this.toneTransport = toneTransport;
@@ -136,7 +138,11 @@ export default class MuskiDrums {
         .appendTo(this.$element);
 
       this.generateButton = new BarButton({
-        buttonText: `<span class="icon icon-robot"></span> ${this.strings.ui.generate} <span class="icon icon-arrow"></span>`,
+        buttonText: [
+          '<span class="icon icon-robot"></span> ',
+          this.uiString('generate'),
+          ' <span class="icon icon-arrow"></span>',
+        ],
         animationTime: 500,
       });
       this.generateButton.$element.appendTo(this.$aiPanel);
@@ -155,7 +161,11 @@ export default class MuskiDrums {
         .appendTo(this.$element);
 
       this.randomButton = new BarButton({
-        buttonText: `<span class="icon icon-random"></span> ${this.strings.ui.random} <span class="icon icon-arrow"></span>`,
+        buttonText: [
+          '<span class="icon icon-random"></span> ',
+          this.uiString('random'),
+          ' <span class="icon icon-arrow"></span>',
+        ],
         animationTime: 500,
       });
       this.randomButton.$element.appendTo(this.$randomPanel);
@@ -172,12 +182,14 @@ export default class MuskiDrums {
       .addClass('muski-drums-controls-panel')
       .appendTo(this.$element);
 
+    this.$playButtonLabel = $('<span></span>');
     this.$playButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-lg', 'btn-play'])
-      .text(this.strings.ui.play)
+      .append(this.$playButtonLabel)
       .on('click', () => { this.handlePlayButton(); })
       .appendTo(this.$controlsPanel);
+    this.updatePlayButtonLabel();
 
     this.$tempoDisplay = $('<span></span>')
       .addClass(['muski-tempo-display-field']);
@@ -186,7 +198,7 @@ export default class MuskiDrums {
       .addClass('muski-tempo')
       .append($('<label></label>')
         .addClass(['muski-tempo-label', 'me-2', 'ms-3'])
-        .append([`${this.strings.ui.tempo}: `]))
+        .append([this.uiString('tempo'), ': ']))
       .append(
         $('<input>')
           .addClass(['form-range', 'muski-tempo-range'])
@@ -200,15 +212,29 @@ export default class MuskiDrums {
       )
       .append($('<span></span>')
         .addClass(['muski-tempo-display', 'ms-2'])
-        .append([this.$tempoDisplay, ` ${this.strings.ui.bpm}`]))
+        .append([this.$tempoDisplay, ' ', this.uiString('bpm')]))
       .appendTo(this.$controlsPanel);
 
     this.$clearButton = $('<button></button>')
       .attr('type', 'button')
       .addClass(['btn', 'btn-control-round', 'btn-control-round-clear'])
-      .text(this.strings.ui.clear)
+      .append(this.uiString('clear'))
       .on('click', () => { this.handleClearButton(); })
       .appendTo(this.$controlsPanel);
+  }
+
+  /**
+   * Create a <span> holding a UI string, and register it so setStrings() can update it later.
+   *
+   * @param {string} key
+   *  Key in the `ui` section of the strings object.
+   * @returns {jQuery}
+   *  The span, to be inserted into the UI.
+   */
+  uiString(key) {
+    const $span = $('<span></span>').text(this.strings.ui[key] || '');
+    this.$uiStrings[key] = $span;
+    return $span;
   }
 
   start() {
@@ -232,6 +258,50 @@ export default class MuskiDrums {
       throw new Error(`Player for drum ${drum} not found in sampler.`);
     }
     this.sampler.player(String(drumMap[drum])).volume.value = volume;
+  }
+
+  /**
+   * Replace some or all of the UI strings.
+   *
+   * Takes an object with the same shape as `options.strings[lang]`: `ui`, `drums` and
+   * `notes` sections of flat key/value pairs. Only the sections and keys present in the
+   * object are replaced; everything else keeps its current value.
+   *
+   * @param {Object} strings
+   *  The strings to replace.
+   */
+  setStrings(strings) {
+    ['ui', 'drums', 'notes'].forEach((section) => {
+      if (strings[section]) {
+        // Assign a new object rather than mutating in place: the section is still a
+        // reference to one of the shared i18n modules, and mutating it would change the
+        // strings of every other widget on the page.
+        this.strings[section] = { ...this.strings[section], ...strings[section] };
+      }
+    });
+
+    if (strings.ui) {
+      Object.entries(this.$uiStrings).forEach(([key, $span]) => {
+        $span.text(this.strings.ui[key] || '');
+      });
+      this.updatePlayButtonLabel();
+    }
+
+    if (strings.drums) {
+      this.sequencer.setRowLabels(this.options.drums.map((drum) => this.strings.drums[drum]));
+    }
+  }
+
+  /**
+   * Update the play button's label.
+   *
+   * @param {boolean} [playing]
+   *  Whether the transport is playing. Defaults to the current transport state, but the
+   *  transport controller still reports itself as running while it emits `stop`, so the
+   *  transport handlers pass the value explicitly.
+   */
+  updatePlayButtonLabel(playing = this.isPlaying()) {
+    this.$playButtonLabel.text((playing ? this.strings.ui.stop : this.strings.ui.play) || '');
   }
 
   async generateUsingAI() {
@@ -296,12 +366,14 @@ export default class MuskiDrums {
   }
 
   handleToneTransportStart() {
-    this.$playButton.removeClass('btn-play').addClass('btn-stop').text('Stop');
+    this.$playButton.removeClass('btn-play').addClass('btn-stop');
+    this.updatePlayButtonLabel(true);
     this.events.emit('start');
   }
 
   handleToneTransportStop() {
-    this.$playButton.removeClass('btn-stop').addClass('btn-play').text('Play');
+    this.$playButton.removeClass('btn-stop').addClass('btn-play');
+    this.updatePlayButtonLabel(false);
     this.sequencer.setActiveColumn(null);
     this.events.emit('stop');
   }
