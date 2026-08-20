@@ -65,13 +65,15 @@ export default class MuskiSequencer {
       this.$cellButtons[String(options.rows[row])] = rowButtons;
     }
 
+    const hasRowLabels = Array.isArray(this.options.rowLabels);
+
     this.$table = $('<table></table>')
       .addClass('muski-sequencer-matrix');
 
     if (this.options.labelColumns) {
       const $colLabelsRow = $('<tr></tr>')
         .addClass('muski-sequencer-col-labels');
-      if (options.rowLabels !== null) {
+      if (hasRowLabels) {
         $colLabelsRow.append($('<th></th>'));
       }
       for (let col = 0; col < this.options.cols; col += 1) {
@@ -87,10 +89,10 @@ export default class MuskiSequencer {
     for (let row = 0; row < this.options.rows.length; row += 1) {
       const $row = $('<tr></tr>')
         .addClass('muski-sequencer-row');
-      if (options.rowLabels !== null) {
+      if (hasRowLabels) {
         const $rowLabelCell = $('<th></th>')
           .addClass('muski-sequencer-row-label')
-          .text(options.rowLabels[row] || '');
+          .text(this.options.rowLabels[row] || '');
         this.$rowLabelCells.push($rowLabelCell);
         $row.append($rowLabelCell);
       }
